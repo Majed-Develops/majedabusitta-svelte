@@ -1,5 +1,13 @@
 <script lang="ts">
   import Icons from '$lib/components/Icons.svelte';
+  import { onMount } from 'svelte';
+  import { fly, fade } from 'svelte/transition';
+  
+  let mounted = false;
+  
+  onMount(() => {
+    mounted = true;
+  });
 </script>
 
 <svelte:head>
@@ -18,67 +26,70 @@
   </div>
 
   <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-        Hi, I'm{" "}
-        <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Majed Abu Sitta
-        </span>
-      </h1>
-      
-      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-        I'm a tech enthusiast diving deep into full-stack development, AI, and cybersecurity. I enjoy building practical applications and constantly learning new skills to create solutions that matter.
-      </p>
-      
-      <div class="mt-10 flex items-center justify-center gap-x-6">
-        <a
-          href="/projects"
-          class="rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
-        >
-          View My Work
-        </a>
-        <a
-          href="/contact"
-          class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-        >
-          Get in touch
-          <Icons name="external" size={16} class="h-4 w-4" />
-        </a>
-      </div>
+    {#if mounted}
+      <div class="mx-auto max-w-2xl text-center" in:fade={{ duration: 800 }}>
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl" in:fly={{ y: 20, duration: 800, delay: 100 }}>
+          Hi, I'm{" "}
+          <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Majed Abu Sitta
+          </span>
+        </h1>
+        
+        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300" in:fly={{ y: 20, duration: 800, delay: 200 }}>
+          I'm a tech enthusiast diving deep into full-stack development, AI, and cybersecurity. I enjoy building practical applications and constantly learning new skills to create solutions that matter.
+        </p>
+        
+        <div class="mt-10 flex items-center justify-center gap-x-6" in:fly={{ y: 20, duration: 800, delay: 300 }}>
+          <a
+            href="/projects"
+            class="rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
+          >
+            View My Work
+          </a>
+          <a
+            href="/contact"
+            class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            Get in touch
+            <Icons name="external" size={16} class="h-4 w-4" />
+          </a>
+        </div>
 
-      <div class="mt-8 flex items-center justify-center gap-x-6">
-        <a
-          href="https://github.com/majed-develops"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
-          aria-label="GitHub"
-        >
-          <Icons name="github" size={24} class="h-6 w-6" />
-        </a>
-        <a
-          href="https://www.linkedin.com/in/majed-bashir"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
-          aria-label="LinkedIn"
-        >
-          <Icons name="linkedin" size={24} class="h-6 w-6" />
-        </a>
-        <a
-          href="https://hackerone.com/mr_devz"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-          aria-label="HackerOne"
-        >
-          <Icons name="hackerone" size={24} class="h-6 w-6" />
-        </a>
+        <div class="mt-8 flex items-center justify-center gap-x-6" in:fly={{ y: 20, duration: 800, delay: 400 }}>
+          <a
+            href="https://github.com/majed-develops"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+            aria-label="GitHub"
+          >
+            <Icons name="github" size={24} class="h-6 w-6" />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/majed-bashir"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+            aria-label="LinkedIn"
+          >
+            <Icons name="linkedin" size={24} class="h-6 w-6" />
+          </a>
+          <a
+            href="https://hackerone.com/mr_devz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+            aria-label="HackerOne"
+          >
+            <Icons name="hackerone" size={24} class="h-6 w-6" />
+          </a>
+        </div>
       </div>
-    </div>
+    {/if}
 
-    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+    {#if mounted}
+      <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl" in:fly={{ y: 40, duration: 800, delay: 400 }}>
+        <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
         <div class="relative pl-16">
           <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
             <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
@@ -176,6 +187,7 @@
         </div>
       </dl>
     </div>
+    {/if}
   </div>
 
   <div

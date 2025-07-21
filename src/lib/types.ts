@@ -39,7 +39,7 @@ export interface ResumeData {
       company: string;
       position: string;
       duration: string;
-      description: string;
+      description: string[];
     }>;
     skills: string[];
     education: Array<{

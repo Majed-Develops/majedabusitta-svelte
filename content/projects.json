@@ -32,9 +32,9 @@
     "title": "Balagh",
     "description": "A modern React application helping Muslims share their faith with beautiful resources and tools.",
     "techStack": ["React 19", "Vite", "Tailwind CSS", "Radix UI"],
-    "liveUrl": "https://dawah-toolkit.example.com",
+    "liveUrl": "https://balagh.pages.dev/",
     "githubUrl": "https://github.com/Majed-Develops/balagh",
-    "imageUrl": "/images/dawah-toolkit.jpg",
+    "imageUrl": "/images/balagh.png",
     "featured": true
   },
   {
@@ -49,12 +49,12 @@
   },
   {
     "id": "portfolio-website",
-    "title": "Study Buddy",
-    "description": "A clean, modern portfolio website built with Next.js and Tailwind CSS, featuring dark mode and smooth animations.",
-    "techStack": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    "liveUrl": "https://yourportfolio.com",
-    "githubUrl": "https://github.com/yourusername/portfolio",
-    "imageUrl": "/images/portfolio.jpg",
-    "featured": false
+    "title": "majedabusitta - svelte",
+    "description": "My portfolio in Svelte instead of React/Next.js - featuring smooth animations, multiple themes, and modern design",
+    "techStack": ["SvelteKit", "TypeScript", "Tailwind CSS", "Vite"],
+    "liveUrl": "https://f2369a32.majedabusitta-svelte.pages.dev/",
+    "githubUrl": "https://github.com/majed-develops/majedabusitta-svelte",
+    "imageUrl": "/images/majedabusitta-svelte.png",
+    "featured": true
   }
 ]

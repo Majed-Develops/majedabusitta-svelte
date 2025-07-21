@@ -42,5 +42,3 @@ While currently pursuing a bachelor's in Cybersecurity (July 2025), I continue t
 - Teaching and mentoring
 - Cybersecurity
 - Artificial Intelligence
-
-![Profile Picture](/images/profile.jpg)

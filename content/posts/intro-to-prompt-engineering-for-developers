@@ -1,0 +1,60 @@
+---
+title: "Intro to Prompt Engineering for Developers"
+date: "2025-07-20"
+excerpt: "Prompt engineering has evolved. Here's what it is, how it started, and what developers need to know to build smarter, more useful AI-powered apps."
+tags: ["AI", "Prompt Engineering", "LLMs", "DevTools"]
+---
+
+# Intro to Prompt Engineering for Developers
+
+Prompt engineering is the skill of shaping human intent into structured language that large language models (LLMs) can understand and respond to effectively. But it's not just about writing clever inputs — it’s now part of building full-featured AI applications.
+
+Whether you’re building a chatbot, a coding assistant, or an internal tool with LLM capabilities, prompt engineering is the entry point between user needs and machine reasoning.
+
+## How Prompt Engineering Started
+
+In the early ChatGPT days (late 2022 to early 2023), prompting was seen as an art form. People experimented with:
+
+- Phrasing tricks like “Act as a…” or “Let’s think step by step”
+- Prompt chaining, where outputs fed into new inputs
+- Jailbreaking to bypass content filters
+
+Back then, prompting was the entire interface. It felt magical — and anyone could do it.
+
+At the time, a good prompt felt like a cheat code.
+
+## How It’s Evolved
+
+Today in 2025, prompt engineering is still valuable — but the game has changed:
+
+- Prompt Engineering then: (2022–2023)
+- Prompt = interface
+- Mostly manual tinkering
+- Clever wording was key
+- Anyone could do it
+
+- Prompt Engineering now: (2024–2025)
+- Prompt = one part of an LLM pipeline
+- Structured prompts + tools + memory 
+- Systematic design is key 
+- Developers need engineering skills too
+
+
+Modern LLM apps combine:
+
+- Structured system and user prompts
+- Few-shot examples
+- Function calling and tool use
+- Embeddings and vector search
+- Memory/context management
+
+Prompting is no longer about "talking nicely to ChatGPT" — it’s about designing systems that think and communicate well.
+
+## Core Prompting Techniques for Developers
+
+Here are four common and powerful prompting strategies used in actual development.
+
+### 1. Instructional Prompts
+
+Tell the model directly what to do.
+
