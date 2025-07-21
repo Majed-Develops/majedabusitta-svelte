@@ -68,7 +68,7 @@
   {#if mobileMenuOpen}
     <!-- Mobile menu overlay -->
     <div class="lg:hidden">
-      <div class="fixed inset-0 z-50"></div>
+      <div class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75" onclick={closeMobileMenu}></div>
       <div
         class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-gray-900 dark:ring-gray-800"
         role="dialog"
