@@ -1,0 +1,21 @@
+{
+	"/": [],
+	"/about": [
+		"src/routes/about/+page.server.ts"
+	],
+	"/blog": [
+		"src/routes/blog/+page.server.ts"
+	],
+	"/blog/[slug]": [
+		"src/routes/blog/[slug]/+page.server.ts"
+	],
+	"/contact": [
+		"src/routes/contact/+page.server.ts"
+	],
+	"/projects": [
+		"src/routes/projects/+page.server.ts"
+	],
+	"/resume": [
+		"src/routes/resume/+page.server.ts"
+	]
+}

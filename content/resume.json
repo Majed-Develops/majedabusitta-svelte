@@ -1,0 +1,32 @@
+{
+  "pdfUrl": "/resume/Majed-Abu-Sitta-Resume.pdf",
+  "lastUpdated": "2025-7-20",
+  "sections": {
+    "summary": "Although early in my development career, I've actively worked on real-world projects that sharpen my skills in building modern, responsive web applications. I've developed interactive tools, educational games, and productivity apps as part of my personal learning journey and client work — all with a strong focus on clean code, usability, and performance.",
+    "experience": [
+      {
+        "company": "ClicTec Solutions",
+        "position": "Social Media Manager",
+        "duration": "March 2024 - October 2024",
+        "description": [
+          "Created educational and industry-relevant content to promote cybersecurity awareness, simplify complex technical topics, and highlight the company’s services.",
+          "Monitored trends in cybersecurity and tech to keep the brand voice relevant and authoritative"
+        ]
+      }
+    ],
+    "skills": [
+      "JavaScript",
+      "Prompt Engineering",
+      "Full-stack developer (in progress)",
+      "Problem Solving & Debugging",
+      "GitHub"
+    ],
+    "education": [
+      {
+        "institution": "University Kuala Lumpur",
+        "degree": "Bachelor of Computer System Security",
+        "year": "Present"
+      }
+    ]
+  }
+}

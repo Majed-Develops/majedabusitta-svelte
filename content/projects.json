@@ -1,0 +1,60 @@
+[
+  {
+    "id": "score-buddies",
+    "title": "Score Buddies",
+    "description": "A full-stack task management application built with SvelteKit, featuring real-time collaboration, authentication, and beautiful UI.",
+    "techStack": [
+      "SvelteKit",
+      "TypeScript",
+      "SQLite",
+      "Drizzle ORM",
+      "Lucia Auth"
+    ],
+    "liveUrl": "https://score-buddies.pages.dev/",
+    "githubUrl": "https://github.com/Majed-Develops/Score-Buddies",
+    "imageUrl": "/images/Score_buddies.png",
+    "videoUrl": "/videos/task-manager-demo.mp4",
+    "featured": true
+  },
+  {
+    "id": "score-buddies-simple",
+    "title": "Score Buddies (Simple)",
+    "description": "A multi-theme score tracking application built with Svelte 5, featuring five unique interfaces, real-time scoring, and responsive design.",
+    "techStack": ["Svelte 5", "Vite", "JavaScript", "CSS"],
+    "liveUrl": "https://score-buddies-versions.pages.dev/",
+    "githubUrl": "https://github.com/Majed-Develops/Score-buddies-versions",
+    "imageUrl": "/images/Score_buddies_versions.png",
+    "videoUrl": "/videos/task-manager-demo.mp4",
+    "featured": true
+  },
+  {
+    "id": "balagh",
+    "title": "Balagh",
+    "description": "A modern React application helping Muslims share their faith with beautiful resources and tools.",
+    "techStack": ["React 19", "Vite", "Tailwind CSS", "Radix UI"],
+    "liveUrl": "https://dawah-toolkit.example.com",
+    "githubUrl": "https://github.com/Majed-Develops/balagh",
+    "imageUrl": "/images/dawah-toolkit.jpg",
+    "featured": true
+  },
+  {
+    "id": "study-buddy",
+    "title": "Study Buddy",
+    "description": "Study Buddy is a responsive React 19 + Vite app combining a Pomodoro timer and exam system using modern JS, custom CSS, hooks, and Web Audio API.",
+    "techStack": ["React 19", "Vite", "Javescript ES", "CSS"],
+    "liveUrl": "https://study-buddy-aln.pages.dev/",
+    "githubUrl": "https://github.com/Majed-Develops/study-buddy",
+    "imageUrl": "/images/study-buddy.png",
+    "featured": true
+  },
+  {
+    "id": "portfolio-website",
+    "title": "Study Buddy",
+    "description": "A clean, modern portfolio website built with Next.js and Tailwind CSS, featuring dark mode and smooth animations.",
+    "techStack": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    "liveUrl": "https://yourportfolio.com",
+    "githubUrl": "https://github.com/yourusername/portfolio",
+    "imageUrl": "/images/portfolio.jpg",
+    "featured": false
+  }
+]
