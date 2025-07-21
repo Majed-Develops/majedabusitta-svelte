@@ -1,86 +1,79 @@
-import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import type { Project, BlogPost, ContactInfo, ResumeData } from "./types.js";
 
-const contentDirectory = path.join(process.cwd(), "content");
+// Import JSON files directly
+import projectsData from "../../content/projects.json";
+import contactData from "../../content/contact.json";
+import resumeData from "../../content/resume.json";
+
+// Import markdown files as strings
+import aboutMd from "../../content/about.md?raw";
+import buildingResponsiveWebsitesMd from "../../content/posts/building-responsive-websites.md?raw";
+import gettingStartedWithNextjsMd from "../../content/posts/getting-started-with-nextjs.md?raw";
+import introToPromptEngineeringMd from "../../content/posts/intro-to-prompt-engineering-for-developers.md?raw";
+
+// Blog posts mapping
+const blogPostsMap: Record<string, string> = {
+  "building-responsive-websites": buildingResponsiveWebsitesMd,
+  "getting-started-with-nextjs": gettingStartedWithNextjsMd,
+  "intro-to-prompt-engineering-for-developers": introToPromptEngineeringMd,
+};
 
 export async function getProjects(): Promise<Project[]> {
-  const filePath = path.join(contentDirectory, "projects.json");
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(fileContent);
+  return projectsData;
 }
 
 export async function getContactInfo(): Promise<ContactInfo> {
-  const filePath = path.join(contentDirectory, "contact.json");
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(fileContent);
+  return contactData;
 }
 
 export async function getResumeData(): Promise<ResumeData> {
-  const filePath = path.join(contentDirectory, "resume.json");
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(fileContent);
+  return resumeData;
 }
 
 export async function getAboutContent(): Promise<string> {
-  const filePath = path.join(contentDirectory, "about.md");
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  const { content } = matter(fileContent);
-
+  const { content } = matter(aboutMd);
   const processedContent = await remark().use(html).process(content);
-
   return processedContent.toString();
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const postsDirectory = path.join(contentDirectory, "posts");
-  const filenames = fs.readdirSync(postsDirectory);
-
   const posts = await Promise.all(
-    filenames
-      .filter((name) => name.endsWith(".md"))
-      .map(async (filename) => {
-        const slug = filename.replace(/\.md$/, "");
-        const filePath = path.join(postsDirectory, filename);
-        const fileContent = fs.readFileSync(filePath, "utf8");
-        const { data, content } = matter(fileContent);
+    Object.entries(blogPostsMap).map(async ([slug, fileContent]) => {
+      const { data, content } = matter(fileContent);
+      const processedContent = await remark().use(html).process(content);
 
-        const processedContent = await remark().use(html).process(content);
-
-        return {
-          slug,
-          title: data.title,
-          date: data.date,
-          excerpt: data.excerpt,
-          tags: data.tags || [],
-          content: processedContent.toString(),
-        };
-      }),
+      return {
+        slug,
+        title: data.title,
+        date: data.date,
+        excerpt: data.excerpt,
+        tags: data.tags || [],
+        content: processedContent.toString(),
+      };
+    }),
   );
 
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  try {
-    const filePath = path.join(contentDirectory, "posts", `${slug}.md`);
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContent);
-
-    const processedContent = await remark().use(html).process(content);
-
-    return {
-      slug,
-      title: data.title,
-      date: data.date,
-      excerpt: data.excerpt,
-      tags: data.tags || [],
-      content: processedContent.toString(),
-    };
-  } catch {
+  const fileContent = blogPostsMap[slug];
+  if (!fileContent) {
     return null;
   }
+
+  const { data, content } = matter(fileContent);
+  const processedContent = await remark().use(html).process(content);
+
+  return {
+    slug,
+    title: data.title,
+    date: data.date,
+    excerpt: data.excerpt,
+    tags: data.tags || [],
+    content: processedContent.toString(),
+  };
 }
