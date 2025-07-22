@@ -2,8 +2,6 @@
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
-import { readFileSync } from "fs";
-import { join } from "path";
 import type { Project, BlogPost, ContactInfo, ResumeData } from "./types.js";
 
 // Import JSON files directly
@@ -11,22 +9,17 @@ import projectsData from "../../content/projects.json";
 import contactData from "../../content/contact.json";
 import resumeData from "../../content/resume.json";
 
-// Helper function to read markdown files
-function readMarkdownFile(relativePath: string): string {
-  try {
-    const fullPath = join(process.cwd(), 'content', relativePath);
-    return readFileSync(fullPath, 'utf-8');
-  } catch (error) {
-    console.error(`Error reading markdown file: ${relativePath}`, error);
-    return '';
-  }
-}
+// Import markdown files directly as strings (using ?raw)
+import aboutMd from "../../content/about.md?raw";
+import buildingResponsiveWebsitesMd from "../../content/posts/building-responsive-websites.md?raw";
+import gettingStartedNextjsMd from "../../content/posts/getting-started-with-nextjs.md?raw";
+import promptEngineeringMd from "../../content/posts/intro-to-prompt-engineering-for-developers.md?raw";
 
 // Blog posts mapping
-const blogPostsMap: Record<string, string> = {
-  "building-responsive-websites": "posts/building-responsive-websites.md",
-  "getting-started-with-nextjs": "posts/getting-started-with-nextjs.md", 
-  "intro-to-prompt-engineering-for-developers": "posts/intro-to-prompt-engineering-for-developers.md",
+const blogPostsContent: Record<string, string> = {
+  "building-responsive-websites": buildingResponsiveWebsitesMd,
+  "getting-started-with-nextjs": gettingStartedNextjsMd,
+  "intro-to-prompt-engineering-for-developers": promptEngineeringMd,
 };
 
 export async function getProjects(): Promise<Project[]> {
@@ -42,7 +35,6 @@ export async function getResumeData(): Promise<ResumeData> {
 }
 
 export async function getAboutContent(): Promise<string> {
-  const aboutMd = readMarkdownFile('about.md');
   const { content } = matter(aboutMd);
   const processedContent = await remark().use(html).process(content);
   return processedContent.toString();
@@ -50,8 +42,7 @@ export async function getAboutContent(): Promise<string> {
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const posts = await Promise.all(
-    Object.entries(blogPostsMap).map(async ([slug, filePath]) => {
-      const fileContent = readMarkdownFile(filePath);
+    Object.entries(blogPostsContent).map(async ([slug, fileContent]) => {
       const { data, content } = matter(fileContent);
       const processedContent = await remark().use(html).process(content);
 
@@ -70,12 +61,11 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  const filePath = blogPostsMap[slug];
-  if (!filePath) {
+  const fileContent = blogPostsContent[slug];
+  if (!fileContent) {
     return null;
   }
 
-  const fileContent = readMarkdownFile(filePath);
   const { data, content } = matter(fileContent);
   const processedContent = await remark().use(html).process(content);
 
