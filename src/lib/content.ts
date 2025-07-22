@@ -47,8 +47,9 @@ export async function getAboutContent(): Promise<string> {
   } catch (error) {
     console.error('Error processing about content:', error);
     try {
-      // Fallback: process the raw markdown directly without frontmatter parsing
-      const processedContent = await remark().use(html).process(aboutMd || '# About\n\nContent unavailable.');
+      // Fallback: extract content after frontmatter manually if gray-matter fails
+      const contentAfterFrontmatter = aboutMd.replace(/^---[\s\S]*?---\n?/, '');
+      const processedContent = await remark().use(html).process(contentAfterFrontmatter || '# About\n\nContent unavailable.');
       return processedContent.toString();
     } catch (fallbackError) {
       console.error('Fallback processing failed:', fallbackError);
