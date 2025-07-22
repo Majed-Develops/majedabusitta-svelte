@@ -3,10 +3,14 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [sveltekit()],
-  assetsInclude: ["**/*.md"],
   build: {
     rollupOptions: {
       external: [],
     },
+    target: 'esnext',
+    sourcemap: false,
+  },
+  ssr: {
+    noExternal: ['gray-matter', 'remark', 'remark-html']
   },
 });

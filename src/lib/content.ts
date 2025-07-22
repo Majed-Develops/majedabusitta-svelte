@@ -9,18 +9,19 @@ import projectsData from "../../content/projects.json";
 import contactData from "../../content/contact.json";
 import resumeData from "../../content/resume.json";
 
-// Import markdown files directly as strings (using ?raw)
-import aboutMd from "../../content/about.md?raw";
-import buildingResponsiveWebsitesMd from "../../content/posts/building-responsive-websites.md?raw";
-import gettingStartedNextjsMd from "../../content/posts/getting-started-with-nextjs.md?raw";
-import promptEngineeringMd from "../../content/posts/intro-to-prompt-engineering-for-developers.md?raw";
+// Use import.meta.glob to import markdown files - compatible with Cloudflare Pages
+const blogPostModules = import.meta.glob('../../content/posts/*.md', { query: '?raw', import: 'default', eager: true });
+const aboutModule = import.meta.glob('../../content/about.md', { query: '?raw', import: 'default', eager: true });
 
-// Blog posts mapping
-const blogPostsContent: Record<string, string> = {
-  "building-responsive-websites": buildingResponsiveWebsitesMd,
-  "getting-started-with-nextjs": gettingStartedNextjsMd,
-  "intro-to-prompt-engineering-for-developers": promptEngineeringMd,
-};
+// Extract blog posts content from the glob import
+const blogPostsContent: Record<string, string> = {};
+for (const [path, content] of Object.entries(blogPostModules)) {
+  const filename = path.split('/').pop()?.replace('.md', '') || '';
+  blogPostsContent[filename] = content as string;
+}
+
+// Extract about content
+const aboutMd = Object.values(aboutModule)[0] as string || '';
 
 export async function getProjects(): Promise<Project[]> {
   return projectsData;
