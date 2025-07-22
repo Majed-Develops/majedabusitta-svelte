@@ -10,7 +10,7 @@ return {
 	assets: new Set(["file.svg","globe.svg","images/Score_buddies.png","images/Score_buddies_versions.png","images/balagh.png","images/majedabusitta-svelte.png","images/study-buddy.png","next.svg","vercel.svg","window.svg"]),
 	mimeTypes: {".svg":"image/svg+xml",".png":"image/png"},
 	_: {
-		client: {start:"_app/immutable/entry/start.DZ6E4NZA.js",app:"_app/immutable/entry/app.D49dMDjI.js",imports:["_app/immutable/entry/start.DZ6E4NZA.js","_app/immutable/chunks/DqKEc6FV.js","_app/immutable/chunks/bMrLLR_N.js","_app/immutable/chunks/BuiRv9-c.js","_app/immutable/chunks/80k8pxB6.js","_app/immutable/chunks/BcV4gcyS.js","_app/immutable/entry/app.D49dMDjI.js","_app/immutable/chunks/BuiRv9-c.js","_app/immutable/chunks/80k8pxB6.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/bMrLLR_N.js","_app/immutable/chunks/DPDVlsZ5.js","_app/immutable/chunks/BGlkFFLy.js","_app/immutable/chunks/BcV4gcyS.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.CQ-mLjyr.js",app:"_app/immutable/entry/app.BJdpH2sE.js",imports:["_app/immutable/entry/start.CQ-mLjyr.js","_app/immutable/chunks/D4VZJzuS.js","_app/immutable/chunks/DqYi2RYN.js","_app/immutable/chunks/DAEpXGSt.js","_app/immutable/chunks/CxyGuWJF.js","_app/immutable/chunks/BtPuZwxi.js","_app/immutable/entry/app.BJdpH2sE.js","_app/immutable/chunks/DAEpXGSt.js","_app/immutable/chunks/CxyGuWJF.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/DqYi2RYN.js","_app/immutable/chunks/DOURk1GL.js","_app/immutable/chunks/C00i2GAA.js","_app/immutable/chunks/BtPuZwxi.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),

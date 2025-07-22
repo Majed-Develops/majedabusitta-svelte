@@ -31,6 +31,7 @@ declare module '$env/static/private' {
 	export const GHOSTTY_RESOURCES_DIR: string;
 	export const __MISE_DIFF: string;
 	export const TERM_PROGRAM: string;
+	export const CLAUDE_CODE_ENTRYPOINT: string;
 	export const NODE: string;
 	export const INIT_CWD: string;
 	export const TERM: string;
@@ -43,6 +44,7 @@ declare module '$env/static/private' {
 	export const npm_config_noproxy: string;
 	export const npm_config_local_prefix: string;
 	export const PNPM_HOME: string;
+	export const GIT_EDITOR: string;
 	export const HISTFILESIZE: string;
 	export const USER: string;
 	export const COMMAND_MODE: string;
@@ -60,6 +62,7 @@ declare module '$env/static/private' {
 	export const PWD: string;
 	export const npm_lifecycle_event: string;
 	export const EDITOR: string;
+	export const OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: string;
 	export const npm_package_name: string;
 	export const LANG: string;
 	export const npm_config_npm_version: string;
@@ -80,8 +83,10 @@ declare module '$env/static/private' {
 	export const npm_lifecycle_script: string;
 	export const XDG_DATA_DIRS: string;
 	export const GHOSTTY_BIN_DIR: string;
+	export const COREPACK_ENABLE_AUTO_PIN: string;
 	export const npm_config_user_agent: string;
 	export const __MISE_SESSION: string;
+	export const CLAUDECODE: string;
 	export const HISTFILE: string;
 	export const npm_node_execpath: string;
 	export const npm_config_prefix: string;
@@ -124,6 +129,7 @@ declare module '$env/dynamic/private' {
 		GHOSTTY_RESOURCES_DIR: string;
 		__MISE_DIFF: string;
 		TERM_PROGRAM: string;
+		CLAUDE_CODE_ENTRYPOINT: string;
 		NODE: string;
 		INIT_CWD: string;
 		TERM: string;
@@ -136,6 +142,7 @@ declare module '$env/dynamic/private' {
 		npm_config_noproxy: string;
 		npm_config_local_prefix: string;
 		PNPM_HOME: string;
+		GIT_EDITOR: string;
 		HISTFILESIZE: string;
 		USER: string;
 		COMMAND_MODE: string;
@@ -153,6 +160,7 @@ declare module '$env/dynamic/private' {
 		PWD: string;
 		npm_lifecycle_event: string;
 		EDITOR: string;
+		OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE: string;
 		npm_package_name: string;
 		LANG: string;
 		npm_config_npm_version: string;
@@ -173,8 +181,10 @@ declare module '$env/dynamic/private' {
 		npm_lifecycle_script: string;
 		XDG_DATA_DIRS: string;
 		GHOSTTY_BIN_DIR: string;
+		COREPACK_ENABLE_AUTO_PIN: string;
 		npm_config_user_agent: string;
 		__MISE_SESSION: string;
+		CLAUDECODE: string;
 		HISTFILE: string;
 		npm_node_execpath: string;
 		npm_config_prefix: string;

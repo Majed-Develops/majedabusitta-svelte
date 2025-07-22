@@ -4,6 +4,7 @@
   import Icons from './Icons.svelte';
 
   let mobileMenuOpen = $state(false);
+  let menuAnimating = $state(false);
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -15,15 +16,25 @@
   ];
 
   function toggleMobileMenu() {
+    menuAnimating = true;
     mobileMenuOpen = !mobileMenuOpen;
+    setTimeout(() => menuAnimating = false, 300);
   }
 
   function closeMobileMenu() {
     mobileMenuOpen = false;
   }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape' && mobileMenuOpen) {
+      closeMobileMenu();
+    }
+  }
 </script>
 
-<header class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80">
+<svelte:window onkeydown={handleKeydown} />
+
+<header class="sticky top-0 z-[99998] w-full border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80">
   <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
     <div class="flex lg:flex-1">
       <a href="/" class="-m-1.5 p-1.5">
@@ -33,15 +44,21 @@
       </a>
     </div>
     
-    <div class="flex lg:hidden">
+    <div class="flex items-center gap-2 lg:hidden">
       <ThemeToggle />
       <button
         type="button"
-        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 ml-2"
+        class="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
         onclick={toggleMobileMenu}
+        aria-expanded={mobileMenuOpen}
+        aria-controls="mobile-menu"
       >
-        <span class="sr-only">Open main menu</span>
-        <Icons name="menu" size={24} class="h-6 w-6" />
+        <span class="sr-only">{mobileMenuOpen ? 'Close main menu' : 'Open main menu'}</span>
+        {#if mobileMenuOpen}
+          <Icons name="close" size={24} class="h-6 w-6" />
+        {:else}
+          <Icons name="menu" size={24} class="h-6 w-6" />
+        {/if}
       </button>
     </div>
     
@@ -65,50 +82,57 @@
     </div>
   </nav>
 
-  {#if mobileMenuOpen}
-    <!-- Mobile menu overlay -->
-    <div class="lg:hidden">
-      <div class="fixed inset-0 z-40 bg-gray-600 bg-opacity-75" onclick={closeMobileMenu}></div>
+</header>
+
+<!-- Mobile menu overlay - rendered at body level to escape stacking contexts -->
+{#if typeof document !== 'undefined'}
+  <div class="lg:hidden">
+    <div 
+      class="fixed inset-0 z-[99999] {mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}" 
+      role="dialog" 
+      aria-modal="true"
+    >
+      <!-- Background overlay -->
+      <div 
+        class="fixed inset-0 bg-gray-600/75 backdrop-blur-sm transition-opacity duration-300 ease-out {mobileMenuOpen ? 'opacity-100' : 'opacity-0'}" 
+        onclick={closeMobileMenu}
+        onkeydown={(e) => e.key === 'Enter' && closeMobileMenu()}
+        role="button"
+        tabindex="0"
+        aria-label="Close mobile menu"
+      ></div>
+      
+      <!-- Menu panel -->
       <div
-        class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-gray-900 dark:ring-gray-800"
-        role="dialog"
-        aria-modal="true"
+        id="mobile-menu"
+        class="fixed inset-y-0 right-0 z-[100000] w-full max-w-sm overflow-y-auto bg-white px-6 py-6 shadow-2xl ring-1 ring-gray-900/10 transform transition-transform duration-300 ease-out dark:bg-gray-900 dark:ring-gray-800 {mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}"
+        style="will-change: transform;"
       >
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-center pb-6 border-b border-gray-200 dark:border-gray-700">
           <a href="/" class="-m-1.5 p-1.5" onclick={closeMobileMenu}>
             <span class="text-xl font-bold text-gray-900 dark:text-white">
               Majed Abu Sitta
             </span>
           </a>
-          <button
-            type="button"
-            class="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300"
-            onclick={closeMobileMenu}
-          >
-            <span class="sr-only">Close menu</span>
-            <Icons name="close" size={24} class="h-6 w-6" />
-          </button>
         </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-gray-500/10 dark:divide-gray-700">
-            <div class="space-y-2 py-6">
-              {#each navigation as item}
-                <a
-                  href={item.href}
-                  onclick={closeMobileMenu}
-                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 {
-                    $page.url.pathname === item.href
-                      ? 'bg-gray-50 text-blue-600 dark:bg-gray-800 dark:text-blue-400'
-                      : 'text-gray-900 dark:text-gray-300'
-                  }"
-                >
-                  {item.name}
-                </a>
-              {/each}
-            </div>
+        <nav class="mt-6">
+          <div class="space-y-1">
+            {#each navigation as item}
+              <a
+                href={item.href}
+                onclick={closeMobileMenu}
+                class="flex items-center rounded-lg px-3 py-3 text-lg font-medium leading-6 transition-colors hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-gray-800 dark:active:bg-gray-700 {
+                  $page.url.pathname === item.href
+                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
+                    : 'text-gray-900 dark:text-gray-100'
+                }"
+              >
+                {item.name}
+              </a>
+            {/each}
           </div>
-        </div>
+        </nav>
       </div>
     </div>
-  {/if}
-</header>
+  </div>
+{/if}

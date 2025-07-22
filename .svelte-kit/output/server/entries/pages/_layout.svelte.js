@@ -1,4 +1,4 @@
-import { E as getContext, B as pop, z as push, F as ensure_array_like, G as attr, I as attr_class, J as escape_html, K as stringify, M as store_get, N as unsubscribe_stores, O as head, P as slot } from "../../chunks/index.js";
+import { E as getContext, B as pop, z as push, F as ensure_array_like, G as attr, I as escape_html, J as attr_class, K as stringify, M as store_get, N as unsubscribe_stores, O as head, P as slot } from "../../chunks/index.js";
 import "@sveltejs/kit/internal";
 import { w as writable } from "../../chunks/exports.js";
 import "clsx";
@@ -59,6 +59,7 @@ function ThemeToggle($$payload, $$props) {
 function Header($$payload, $$props) {
   push();
   var $$store_subs;
+  let mobileMenuOpen = false;
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
@@ -68,22 +69,34 @@ function Header($$payload, $$props) {
     { name: "Contact", href: "/contact" }
   ];
   const each_array = ensure_array_like(navigation);
-  $$payload.out.push(`<header class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"><nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"><div class="flex lg:flex-1"><a href="/" class="-m-1.5 p-1.5"><span class="text-xl font-bold text-gray-900 dark:text-white">Majed Abu Sitta</span></a></div> <div class="flex lg:hidden">`);
+  $$payload.out.push(`<header class="sticky top-0 z-[99998] w-full border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"><nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"><div class="flex lg:flex-1"><a href="/" class="-m-1.5 p-1.5"><span class="text-xl font-bold text-gray-900 dark:text-white">Majed Abu Sitta</span></a></div> <div class="flex items-center gap-2 lg:hidden">`);
   ThemeToggle($$payload);
-  $$payload.out.push(`<!----> <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-gray-300 ml-2"><span class="sr-only">Open main menu</span> `);
-  Icons($$payload, { name: "menu", size: 24, class: "h-6 w-6" });
-  $$payload.out.push(`<!----></button></div> <div class="hidden lg:flex lg:gap-x-12"><!--[-->`);
+  $$payload.out.push(`<!----> <button type="button" class="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"${attr("aria-expanded", mobileMenuOpen)} aria-controls="mobile-menu"><span class="sr-only">${escape_html("Open main menu")}</span> `);
+  {
+    $$payload.out.push("<!--[!-->");
+    Icons($$payload, { name: "menu", size: 24, class: "h-6 w-6" });
+  }
+  $$payload.out.push(`<!--]--></button></div> <div class="hidden lg:flex lg:gap-x-12"><!--[-->`);
   for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
     let item = each_array[$$index];
     $$payload.out.push(`<a${attr("href", item.href)}${attr_class(`text-sm font-semibold leading-6 transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${stringify(store_get($$store_subs ??= {}, "$page", page).url.pathname === item.href ? "text-blue-600 dark:text-blue-400" : "text-gray-900 dark:text-gray-300")}`)}>${escape_html(item.name)}</a>`);
   }
   $$payload.out.push(`<!--]--></div> <div class="hidden lg:flex lg:flex-1 lg:justify-end">`);
   ThemeToggle($$payload);
-  $$payload.out.push(`<!----></div></nav> `);
-  {
+  $$payload.out.push(`<!----></div></nav></header> `);
+  if (typeof document !== "undefined") {
+    $$payload.out.push("<!--[-->");
+    const each_array_1 = ensure_array_like(navigation);
+    $$payload.out.push(`<div class="lg:hidden"><div${attr_class(`fixed inset-0 z-[99999] ${stringify("pointer-events-none")}`)} role="dialog" aria-modal="true"><div${attr_class(`fixed inset-0 bg-gray-600/75 backdrop-blur-sm transition-opacity duration-300 ease-out ${stringify("opacity-0")}`)} role="button" tabindex="0" aria-label="Close mobile menu"></div> <div id="mobile-menu"${attr_class(`fixed inset-y-0 right-0 z-[100000] w-full max-w-sm overflow-y-auto bg-white px-6 py-6 shadow-2xl ring-1 ring-gray-900/10 transform transition-transform duration-300 ease-out dark:bg-gray-900 dark:ring-gray-800 ${stringify("translate-x-full")}`)} style="will-change: transform;"><div class="flex items-center justify-center pb-6 border-b border-gray-200 dark:border-gray-700"><a href="/" class="-m-1.5 p-1.5"><span class="text-xl font-bold text-gray-900 dark:text-white">Majed Abu Sitta</span></a></div> <nav class="mt-6"><div class="space-y-1"><!--[-->`);
+    for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
+      let item = each_array_1[$$index_1];
+      $$payload.out.push(`<a${attr("href", item.href)}${attr_class(`flex items-center rounded-lg px-3 py-3 text-lg font-medium leading-6 transition-colors hover:bg-gray-50 active:bg-gray-100 dark:hover:bg-gray-800 dark:active:bg-gray-700 ${stringify(store_get($$store_subs ??= {}, "$page", page).url.pathname === item.href ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400" : "text-gray-900 dark:text-gray-100")}`)}>${escape_html(item.name)}</a>`);
+    }
+    $$payload.out.push(`<!--]--></div></nav></div></div></div>`);
+  } else {
     $$payload.out.push("<!--[!-->");
   }
-  $$payload.out.push(`<!--]--></header>`);
+  $$payload.out.push(`<!--]-->`);
   if ($$store_subs) unsubscribe_stores($$store_subs);
   pop();
 }
