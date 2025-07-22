@@ -1,5 +1,5 @@
 ---
-title: About me
+About me
 ---
 
 I'm a prompt engineer and future full-stack developer who thrives on building meaningful, real-world solutions with modern web tools. From elegant UIs to powerful backends, I enjoy turning ideas into beautiful, functional applications.
