@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@sveltejs/adapter-cloudflare": "^7.1.0",
-    "gray-matter": "^4.0.3",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1"
   }

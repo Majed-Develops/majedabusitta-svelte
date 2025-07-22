@@ -1,5 +1,3 @@
-// @ts-ignore - gray-matter ESM compatibility
-import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import type { Project, BlogPost, ContactInfo, ResumeData } from "./types.js";
@@ -23,6 +21,47 @@ for (const [path, content] of Object.entries(blogPostModules)) {
 // Extract about content
 const aboutMd = Object.values(aboutModule)[0] as string || '';
 
+// Simple frontmatter parser for edge compatibility
+function parseFrontmatter(content: string): { data: any; content: string } {
+  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  
+  if (!frontmatterMatch) {
+    return { data: {}, content };
+  }
+  
+  const [, frontmatterStr, bodyContent] = frontmatterMatch;
+  const data: any = {};
+  
+  // Parse YAML-like frontmatter
+  const lines = frontmatterStr.split('\n');
+  for (const line of lines) {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex > 0) {
+      const key = line.substring(0, colonIndex).trim();
+      let value: any = line.substring(colonIndex + 1).trim();
+      
+      // Remove quotes if present
+      if ((value.startsWith('"') && value.endsWith('"')) || 
+          (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+      }
+      
+      // Parse arrays (simple format like ["tag1", "tag2", "tag3"])
+      if (value.startsWith('[') && value.endsWith(']')) {
+        try {
+          value = JSON.parse(value);
+        } catch {
+          // If JSON parsing fails, treat as string
+        }
+      }
+      
+      data[key] = value;
+    }
+  }
+  
+  return { data, content: bodyContent };
+}
+
 export async function getProjects(): Promise<Project[]> {
   return projectsData;
 }
@@ -42,13 +81,13 @@ export async function getAboutContent(): Promise<string> {
       throw new Error('About markdown content is not available');
     }
     
-    const { content } = matter(aboutMd);
+    const { content } = parseFrontmatter(aboutMd);
     const processedContent = await remark().use(html).process(content);
     return processedContent.toString();
   } catch (error) {
     console.error('Error processing about content:', error);
     try {
-      // Fallback: extract content after frontmatter manually if gray-matter fails
+      // Fallback: extract content after frontmatter manually
       const contentAfterFrontmatter = aboutMd.replace(/^---[\s\S]*?---\n?/, '');
       const processedContent = await remark().use(html).process(contentAfterFrontmatter || '# About\n\nContent unavailable.');
       return processedContent.toString();
@@ -63,7 +102,7 @@ export async function getAboutContent(): Promise<string> {
 export async function getBlogPosts(): Promise<BlogPost[]> {
   const posts = await Promise.all(
     Object.entries(blogPostsContent).map(async ([slug, fileContent]) => {
-      const { data, content } = matter(fileContent);
+      const { data, content } = parseFrontmatter(fileContent);
       const processedContent = await remark().use(html).process(content);
 
       return {
@@ -86,7 +125,7 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     return null;
   }
 
-  const { data, content } = matter(fileContent);
+  const { data, content } = parseFrontmatter(fileContent);
   const processedContent = await remark().use(html).process(content);
 
   return {

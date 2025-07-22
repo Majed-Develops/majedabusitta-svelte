@@ -1,8 +1,3 @@
-import require$$0$3 from "fs";
-import require$$1 from "section-matter";
-import require$$0 from "js-yaml";
-import require$$0$2 from "strip-bom-string";
-import require$$0$1 from "kind-of";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { unified } from "unified";
@@ -61,337 +56,11 @@ While currently pursuing a bachelor's in Cybersecurity (July 2025), I continue t
 - Cybersecurity
 - Artificial Intelligence
 `;
-function getDefaultExportFromCjs(x) {
-  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
-}
-var engines$2 = { exports: {} };
-(function(module, exports) {
-  const yaml = require$$0;
-  const engines = module.exports;
-  engines.yaml = {
-    parse: yaml.safeLoad.bind(yaml),
-    stringify: yaml.safeDump.bind(yaml)
-  };
-  engines.json = {
-    parse: JSON.parse.bind(JSON),
-    stringify: function(obj, options2) {
-      const opts = Object.assign({ replacer: null, space: 2 }, options2);
-      return JSON.stringify(obj, opts.replacer, opts.space);
-    }
-  };
-  engines.javascript = {
-    parse: function parse(str, options, wrap) {
-      try {
-        if (wrap !== false) {
-          str = "(function() {\nreturn " + str.trim() + ";\n}());";
-        }
-        return eval(str) || {};
-      } catch (err) {
-        if (wrap !== false && /(unexpected|identifier)/i.test(err.message)) {
-          return parse(str, options, false);
-        }
-        throw new SyntaxError(err);
-      }
-    },
-    stringify: function() {
-      throw new Error("stringifying JavaScript is not supported");
-    }
-  };
-})(engines$2);
-var enginesExports = engines$2.exports;
-var utils$3 = {};
-(function(exports2) {
-  const stripBom = require$$0$2;
-  const typeOf2 = require$$0$1;
-  exports2.define = function(obj, key, val) {
-    Reflect.defineProperty(obj, key, {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: val
-    });
-  };
-  exports2.isBuffer = function(val) {
-    return typeOf2(val) === "buffer";
-  };
-  exports2.isObject = function(val) {
-    return typeOf2(val) === "object";
-  };
-  exports2.toBuffer = function(input) {
-    return typeof input === "string" ? Buffer.from(input) : input;
-  };
-  exports2.toString = function(input) {
-    if (exports2.isBuffer(input)) return stripBom(String(input));
-    if (typeof input !== "string") {
-      throw new TypeError("expected input to be a string or buffer");
-    }
-    return stripBom(input);
-  };
-  exports2.arrayify = function(val) {
-    return val ? Array.isArray(val) ? val : [val] : [];
-  };
-  exports2.startsWith = function(str2, substr, len) {
-    if (typeof len !== "number") len = substr.length;
-    return str2.slice(0, len) === substr;
-  };
-})(utils$3);
-const engines$1 = enginesExports;
-const utils$2 = utils$3;
-var defaults$4 = function(options2) {
-  const opts = Object.assign({}, options2);
-  opts.delimiters = utils$2.arrayify(opts.delims || opts.delimiters || "---");
-  if (opts.delimiters.length === 1) {
-    opts.delimiters.push(opts.delimiters[0]);
-  }
-  opts.language = (opts.language || opts.lang || "yaml").toLowerCase();
-  opts.engines = Object.assign({}, engines$1, opts.parsers, opts.engines);
-  return opts;
-};
-var engine = function(name, options2) {
-  let engine2 = options2.engines[name] || options2.engines[aliase(name)];
-  if (typeof engine2 === "undefined") {
-    throw new Error('gray-matter engine "' + name + '" is not registered');
-  }
-  if (typeof engine2 === "function") {
-    engine2 = { parse: engine2 };
-  }
-  return engine2;
-};
-function aliase(name) {
-  switch (name.toLowerCase()) {
-    case "js":
-    case "javascript":
-      return "javascript";
-    case "coffee":
-    case "coffeescript":
-    case "cson":
-      return "coffee";
-    case "yaml":
-    case "yml":
-      return "yaml";
-    default: {
-      return name;
-    }
-  }
-}
-const typeOf$1 = require$$0$1;
-const getEngine$1 = engine;
-const defaults$3 = defaults$4;
-var stringify$2 = function(file, data, options2) {
-  if (data == null && options2 == null) {
-    switch (typeOf$1(file)) {
-      case "object":
-        data = file.data;
-        options2 = {};
-        break;
-      case "string":
-        return file;
-      default: {
-        throw new TypeError("expected file to be a string or object");
-      }
-    }
-  }
-  const str2 = file.content;
-  const opts = defaults$3(options2);
-  if (data == null) {
-    if (!opts.data) return file;
-    data = opts.data;
-  }
-  const language = file.language || opts.language;
-  const engine2 = getEngine$1(language, opts);
-  if (typeof engine2.stringify !== "function") {
-    throw new TypeError('expected "' + language + '.stringify" to be a function');
-  }
-  data = Object.assign({}, file.data, data);
-  const open = opts.delimiters[0];
-  const close = opts.delimiters[1];
-  const matter2 = engine2.stringify(data, options2).trim();
-  let buf = "";
-  if (matter2 !== "{}") {
-    buf = newline(open) + newline(matter2) + newline(close);
-  }
-  if (typeof file.excerpt === "string" && file.excerpt !== "") {
-    if (str2.indexOf(file.excerpt.trim()) === -1) {
-      buf += newline(file.excerpt) + newline(close);
-    }
-  }
-  return buf + newline(str2);
-};
-function newline(str2) {
-  return str2.slice(-1) !== "\n" ? str2 + "\n" : str2;
-}
-const defaults$2 = defaults$4;
-var excerpt$1 = function(file, options2) {
-  const opts = defaults$2(options2);
-  if (file.data == null) {
-    file.data = {};
-  }
-  if (typeof opts.excerpt === "function") {
-    return opts.excerpt(file, opts);
-  }
-  const sep = file.data.excerpt_separator || opts.excerpt_separator;
-  if (sep == null && (opts.excerpt === false || opts.excerpt == null)) {
-    return file;
-  }
-  const delimiter = typeof opts.excerpt === "string" ? opts.excerpt : sep || opts.delimiters[0];
-  const idx = file.content.indexOf(delimiter);
-  if (idx !== -1) {
-    file.excerpt = file.content.slice(0, idx);
-  }
-  return file;
-};
-const typeOf = require$$0$1;
-const stringify$1 = stringify$2;
-const utils$1 = utils$3;
-var toFile$1 = function(file) {
-  if (typeOf(file) !== "object") {
-    file = { content: file };
-  }
-  if (typeOf(file.data) !== "object") {
-    file.data = {};
-  }
-  if (file.contents && file.content == null) {
-    file.content = file.contents;
-  }
-  utils$1.define(file, "orig", utils$1.toBuffer(file.content));
-  utils$1.define(file, "language", file.language || "");
-  utils$1.define(file, "matter", file.matter || "");
-  utils$1.define(file, "stringify", function(data, options2) {
-    if (options2 && options2.language) {
-      file.language = options2.language;
-    }
-    return stringify$1(file, data, options2);
-  });
-  file.content = utils$1.toString(file.content);
-  file.isEmpty = false;
-  file.excerpt = "";
-  return file;
-};
-const getEngine = engine;
-const defaults$1 = defaults$4;
-var parse$1 = function(language, str2, options2) {
-  const opts = defaults$1(options2);
-  const engine2 = getEngine(language, opts);
-  if (typeof engine2.parse !== "function") {
-    throw new TypeError('expected "' + language + '.parse" to be a function');
-  }
-  return engine2.parse(str2, opts);
-};
-const fs = require$$0$3;
-const sections$1 = require$$1;
-const defaults = defaults$4;
-const stringify = stringify$2;
-const excerpt = excerpt$1;
-const engines = enginesExports;
-const toFile = toFile$1;
-const parse = parse$1;
-const utils = utils$3;
-function matter(input, options2) {
-  if (input === "") {
-    return { data: {}, content: input, excerpt: "", orig: input };
-  }
-  let file = toFile(input);
-  const cached = matter.cache[file.content];
-  if (!options2) {
-    if (cached) {
-      file = Object.assign({}, cached);
-      file.orig = cached.orig;
-      return file;
-    }
-    matter.cache[file.content] = file;
-  }
-  return parseMatter(file, options2);
-}
-function parseMatter(file, options2) {
-  const opts = defaults(options2);
-  const open = opts.delimiters[0];
-  const close = "\n" + opts.delimiters[1];
-  let str2 = file.content;
-  if (opts.language) {
-    file.language = opts.language;
-  }
-  const openLen = open.length;
-  if (!utils.startsWith(str2, open, openLen)) {
-    excerpt(file, opts);
-    return file;
-  }
-  if (str2.charAt(openLen) === open.slice(-1)) {
-    return file;
-  }
-  str2 = str2.slice(openLen);
-  const len = str2.length;
-  const language = matter.language(str2, opts);
-  if (language.name) {
-    file.language = language.name;
-    str2 = str2.slice(language.raw.length);
-  }
-  let closeIndex = str2.indexOf(close);
-  if (closeIndex === -1) {
-    closeIndex = len;
-  }
-  file.matter = str2.slice(0, closeIndex);
-  const block = file.matter.replace(/^\s*#[^\n]+/gm, "").trim();
-  if (block === "") {
-    file.isEmpty = true;
-    file.empty = file.content;
-    file.data = {};
-  } else {
-    file.data = parse(file.language, file.matter, opts);
-  }
-  if (closeIndex === len) {
-    file.content = "";
-  } else {
-    file.content = str2.slice(closeIndex + close.length);
-    if (file.content[0] === "\r") {
-      file.content = file.content.slice(1);
-    }
-    if (file.content[0] === "\n") {
-      file.content = file.content.slice(1);
-    }
-  }
-  excerpt(file, opts);
-  if (opts.sections === true || typeof opts.section === "function") {
-    sections$1(file, opts.section);
-  }
-  return file;
-}
-matter.engines = engines;
-matter.stringify = function(file, data, options2) {
-  if (typeof file === "string") file = matter(file, options2);
-  return stringify(file, data, options2);
-};
-matter.read = function(filepath, options2) {
-  const str2 = fs.readFileSync(filepath, "utf8");
-  const file = matter(str2, options2);
-  file.path = filepath;
-  return file;
-};
-matter.test = function(str2, options2) {
-  return utils.startsWith(str2, defaults(options2).delimiters[0]);
-};
-matter.language = function(str2, options2) {
-  const opts = defaults(options2);
-  const open = opts.delimiters[0];
-  if (matter.test(str2)) {
-    str2 = str2.slice(open.length);
-  }
-  const language = str2.slice(0, str2.search(/\r?\n/));
-  return {
-    raw: language,
-    name: language ? language.trim() : ""
-  };
-};
-matter.cache = {};
-matter.clearCache = function() {
-  matter.cache = {};
-};
-var grayMatter = matter;
-const matter$1 = /* @__PURE__ */ getDefaultExportFromCjs(grayMatter);
 const remark = unified().use(remarkParse).use(remarkStringify).freeze();
 const emptyOptions = {};
-function remarkHtml(options2) {
+function remarkHtml(options) {
   const self = this;
-  const { handlers, sanitize: clean, ...toHtmlOptions } = options2 || emptyOptions;
+  const { handlers, sanitize: clean, ...toHtmlOptions } = options || emptyOptions;
   let allowDangerousHtml = false;
   let schema;
   if (typeof clean === "boolean") {
@@ -547,6 +216,33 @@ for (const [path, content] of Object.entries(blogPostModules)) {
   blogPostsContent[filename] = content;
 }
 const aboutMd = Object.values(aboutModule)[0] || "";
+function parseFrontmatter(content) {
+  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!frontmatterMatch) {
+    return { data: {}, content };
+  }
+  const [, frontmatterStr, bodyContent] = frontmatterMatch;
+  const data = {};
+  const lines = frontmatterStr.split("\n");
+  for (const line of lines) {
+    const colonIndex = line.indexOf(":");
+    if (colonIndex > 0) {
+      const key = line.substring(0, colonIndex).trim();
+      let value = line.substring(colonIndex + 1).trim();
+      if (value.startsWith('"') && value.endsWith('"') || value.startsWith("'") && value.endsWith("'")) {
+        value = value.slice(1, -1);
+      }
+      if (value.startsWith("[") && value.endsWith("]")) {
+        try {
+          value = JSON.parse(value);
+        } catch {
+        }
+      }
+      data[key] = value;
+    }
+  }
+  return { data, content: bodyContent };
+}
 async function getProjects() {
   return projectsData;
 }
@@ -561,7 +257,7 @@ async function getAboutContent() {
     if (!aboutMd || typeof aboutMd !== "string") {
       throw new Error("About markdown content is not available");
     }
-    const { content } = matter$1(aboutMd);
+    const { content } = parseFrontmatter(aboutMd);
     const processedContent = await remark().use(remarkHtml).process(content);
     return processedContent.toString();
   } catch (error) {
@@ -579,7 +275,7 @@ async function getAboutContent() {
 async function getBlogPosts() {
   const posts = await Promise.all(
     Object.entries(blogPostsContent).map(async ([slug, fileContent]) => {
-      const { data, content } = matter$1(fileContent);
+      const { data, content } = parseFrontmatter(fileContent);
       const processedContent = await remark().use(remarkHtml).process(content);
       return {
         slug,
@@ -598,7 +294,7 @@ async function getBlogPost(slug) {
   if (!fileContent) {
     return null;
   }
-  const { data, content } = matter$1(fileContent);
+  const { data, content } = parseFrontmatter(fileContent);
   const processedContent = await remark().use(remarkHtml).process(content);
   return {
     slug,
