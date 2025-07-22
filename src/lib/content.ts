@@ -35,9 +35,16 @@ export async function getResumeData(): Promise<ResumeData> {
 }
 
 export async function getAboutContent(): Promise<string> {
-  const { content } = matter(aboutMd);
-  const processedContent = await remark().use(html).process(content);
-  return processedContent.toString();
+  try {
+    const { content } = matter(aboutMd);
+    const processedContent = await remark().use(html).process(content);
+    return processedContent.toString();
+  } catch (error) {
+    console.error('Error processing about content:', error);
+    // Fallback: process the raw markdown directly without frontmatter parsing
+    const processedContent = await remark().use(html).process(aboutMd);
+    return processedContent.toString();
+  }
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
