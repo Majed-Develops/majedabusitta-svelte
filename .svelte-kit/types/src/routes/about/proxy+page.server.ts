@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getAboutContent } from "$lib/content.js";
+import { getAboutContent } from "$lib/content.ts";
 import type { PageServerLoad } from "./$types";
 
 export const load = async () => {
