@@ -36,14 +36,25 @@ export async function getResumeData(): Promise<ResumeData> {
 
 export async function getAboutContent(): Promise<string> {
   try {
+    // Ensure aboutMd is defined and not empty
+    if (!aboutMd || typeof aboutMd !== 'string') {
+      throw new Error('About markdown content is not available');
+    }
+    
     const { content } = matter(aboutMd);
     const processedContent = await remark().use(html).process(content);
     return processedContent.toString();
   } catch (error) {
     console.error('Error processing about content:', error);
-    // Fallback: process the raw markdown directly without frontmatter parsing
-    const processedContent = await remark().use(html).process(aboutMd);
-    return processedContent.toString();
+    try {
+      // Fallback: process the raw markdown directly without frontmatter parsing
+      const processedContent = await remark().use(html).process(aboutMd || '# About\n\nContent unavailable.');
+      return processedContent.toString();
+    } catch (fallbackError) {
+      console.error('Fallback processing failed:', fallbackError);
+      // Final fallback: return a simple HTML string
+      return '<h1>About</h1><p>Content unavailable at the moment.</p>';
+    }
   }
 }
 

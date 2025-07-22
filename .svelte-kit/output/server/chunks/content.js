@@ -131,7 +131,7 @@ const resumeData = {
   sections
 };
 const aboutMd = `---
-title: "About Me"
+title: "About me"
 ---
 
 I'm a prompt engineer and future full-stack developer who thrives on building meaningful, real-world solutions with modern web tools. From elegant UIs to powerful backends, I enjoy turning ideas into beautiful, functional applications.
@@ -198,13 +198,19 @@ async function getResumeData() {
 }
 async function getAboutContent() {
   try {
+    if (!aboutMd || typeof aboutMd !== "string") ;
     const { content } = matter(aboutMd);
     const processedContent = await remark().use(html).process(content);
     return processedContent.toString();
   } catch (error) {
     console.error("Error processing about content:", error);
-    const processedContent = await remark().use(html).process(aboutMd);
-    return processedContent.toString();
+    try {
+      const processedContent = await remark().use(html).process(aboutMd || "# About\n\nContent unavailable.");
+      return processedContent.toString();
+    } catch (fallbackError) {
+      console.error("Fallback processing failed:", fallbackError);
+      return "<h1>About</h1><p>Content unavailable at the moment.</p>";
+    }
   }
 }
 async function getBlogPosts() {
