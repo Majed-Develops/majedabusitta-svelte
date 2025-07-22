@@ -9,10 +9,14 @@ import projectsData from "../../content/projects.json";
 import contactData from "../../content/contact.json";
 import resumeData from "../../content/resume.json";
 
-// Import markdown files as strings
+// Import markdown files as strings using explicit ?raw imports
+// @ts-ignore
 import aboutMd from "../../content/about.md?raw";
+// @ts-ignore  
 import buildingResponsiveWebsitesMd from "../../content/posts/building-responsive-websites.md?raw";
+// @ts-ignore
 import gettingStartedWithNextjsMd from "../../content/posts/getting-started-with-nextjs.md?raw";
+// @ts-ignore
 import introToPromptEngineeringMd from "../../content/posts/intro-to-prompt-engineering-for-developers.md?raw";
 
 // Blog posts mapping

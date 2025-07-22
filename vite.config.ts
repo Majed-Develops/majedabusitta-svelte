@@ -3,4 +3,10 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [sveltekit()],
+  assetsInclude: ["**/*.md"],
+  build: {
+    rollupOptions: {
+      external: [],
+    },
+  },
 });
