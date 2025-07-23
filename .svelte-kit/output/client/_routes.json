@@ -4,9 +4,5 @@
 	"include": [
 		"/*"
 	],
-	"exclude": [
-		"/_app/immutable/*",
-		"/_app/version.json",
-		"/404.html"
-	]
+	"exclude": []
 }
