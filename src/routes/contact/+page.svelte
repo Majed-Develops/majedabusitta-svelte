@@ -2,9 +2,9 @@
   import type { PageData } from './$types';
   import Icons from '$lib/components/Icons.svelte';
   
-  let { data }: { data: PageData } = $props();
-  let isSubmitting = $state(false);
-  let submitStatus = $state<'idle' | 'success' | 'error'>('idle');
+  export let data: PageData;
+  let isSubmitting = false;
+  let submitStatus: 'idle' | 'success' | 'error' = 'idle';
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
