@@ -28,6 +28,7 @@
 declare module '$env/static/private' {
 	export const STARSHIP_SHELL: string;
 	export const MANPATH: string;
+	export const npm_config_legacy_peer_deps: string;
 	export const GHOSTTY_RESOURCES_DIR: string;
 	export const __MISE_DIFF: string;
 	export const TERM_PROGRAM: string;
@@ -126,6 +127,7 @@ declare module '$env/dynamic/private' {
 	export const env: {
 		STARSHIP_SHELL: string;
 		MANPATH: string;
+		npm_config_legacy_peer_deps: string;
 		GHOSTTY_RESOURCES_DIR: string;
 		__MISE_DIFF: string;
 		TERM_PROGRAM: string;
