@@ -28,14 +28,14 @@
   <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
     {#if mounted}
       <div class="mx-auto max-w-2xl text-center" in:fade={{ duration: 800 }}>
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl" in:fly={{ y: 20, duration: 800, delay: 100 }}>
+        <h1 class="text-4xl font-bold tracking-tight text-black dark:text-black slate:text-black sm:text-6xl" in:fly={{ y: 20, duration: 800, delay: 100 }}>
           Hi, I'm{" "}
           <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Majed Abu Sitta
           </span>
         </h1>
         
-        <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300" in:fly={{ y: 20, duration: 800, delay: 200 }}>
+        <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black" in:fly={{ y: 20, duration: 800, delay: 200 }}>
           I'm a tech enthusiast diving deep into full-stack development, AI, and cybersecurity. I enjoy building practical applications and constantly learning new skills to create solutions that matter.
         </p>
         
@@ -48,7 +48,7 @@
           </a>
           <a
             href="/contact"
-            class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-black dark:text-black slate:text-black hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             Get in touch
             <Icons name="external" size={16} class="h-4 w-4" />
@@ -91,7 +91,7 @@
       <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl" in:fly={{ y: 40, duration: 800, delay: 400 }}>
         <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
         <div class="relative pl-16">
-          <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+          <dt class="text-base font-semibold leading-7 text-black dark:text-black slate:text-black">
             <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
               <svg
                 class="h-6 w-6 text-white"
@@ -109,12 +109,12 @@
             </div>
             Modern Technologies
           </dt>
-          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+          <dd class="mt-2 text-base leading-7 text-black dark:text-black slate:text-black">
             I leverage AI tools like Claude and prompt-based coding to build projects and learn new skills. Currently, I'm focused on strengthening my JavaScript knowledge while exploring cybersecurity through online learning platforms. I'm also diving deeper into AI to better understand how it can enhance development and problem-solving.
           </dd>
         </div>
         <div class="relative pl-16">
-          <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+          <dt class="text-base font-semibold leading-7 text-black dark:text-black slate:text-black">
             <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
               <svg
                 class="h-6 w-6 text-white"
@@ -132,13 +132,13 @@
             </div>
             Performance Focused
           </dt>
-          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+          <dd class="mt-2 text-base leading-7 text-black dark:text-black slate:text-black">
             Every application I build is optimized for speed, accessibility, and
             user experience across all devices and platforms.
           </dd>
         </div>
         <div class="relative pl-16">
-          <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+          <dt class="text-base font-semibold leading-7 text-black dark:text-black slate:text-black">
             <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
               <svg
                 class="h-6 w-6 text-white"
@@ -156,13 +156,13 @@
             </div>
             Team Collaboration
           </dt>
-          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+          <dd class="mt-2 text-base leading-7 text-black dark:text-black slate:text-black">
             I excel at working with cross-functional teams, mentoring developers,
             and delivering projects on time and within scope.
           </dd>
         </div>
         <div class="relative pl-16">
-          <dt class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+          <dt class="text-base font-semibold leading-7 text-black dark:text-black slate:text-black">
             <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
               <svg
                 class="h-6 w-6 text-white"
@@ -180,7 +180,7 @@
             </div>
             Continuous Learning
           </dt>
-          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">
+          <dd class="mt-2 text-base leading-7 text-black dark:text-black slate:text-black">
             I stay up-to-date with the latest technologies and best practices,
             constantly improving my skills and knowledge.
           </dd>

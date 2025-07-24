@@ -42,10 +42,12 @@
 
 <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
   <div class="mx-auto max-w-2xl text-center">
-    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-      Get in Touch
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
+      <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Get in Touch
+      </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
       I'd love to hear from you! Whether you have a project in mind or just want to connect.
     </p>
   </div>
@@ -53,11 +55,11 @@
   <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 lg:grid-cols-2">
     <!-- Contact Form -->
     <div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send me a message</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Send me a message</h2>
       
       <form onsubmit={handleSubmit} class="space-y-6">
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="name" class="block text-sm font-medium text-black dark:text-black slate:text-black">
             Name
           </label>
           <input
@@ -65,12 +67,12 @@
             name="name"
             id="name"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"
+            class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"
           />
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="email" class="block text-sm font-medium text-black dark:text-black slate:text-black">
             Email
           </label>
           <input
@@ -78,12 +80,12 @@
             name="email"
             id="email"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"
+            class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"
           />
         </div>
 
         <div>
-          <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="subject" class="block text-sm font-medium text-black dark:text-black slate:text-black">
             Subject
           </label>
           <input
@@ -91,12 +93,12 @@
             name="subject"
             id="subject"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"
+            class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"
           />
         </div>
 
         <div>
-          <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="message" class="block text-sm font-medium text-black dark:text-black slate:text-black">
             Message
           </label>
           <textarea
@@ -104,7 +106,7 @@
             id="message"
             rows="6"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"
+            class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"
           ></textarea>
         </div>
 
@@ -137,7 +139,7 @@
     <!-- Contact Info -->
     <div class="space-y-8">
       <div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h2>
+        <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Contact Information</h2>
         
         <div class="space-y-6">
           <div class="flex items-center space-x-4">
@@ -145,7 +147,7 @@
               <Icons name="email" size={24} class="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p class="text-sm font-medium text-gray-900 dark:text-white">Email</p>
+              <p class="text-sm font-medium text-black dark:text-black slate:text-black">Email</p>
               <a href="mailto:{data.contactInfo.email}" class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
                 {data.contactInfo.email}
               </a>
@@ -153,7 +155,7 @@
           </div>
 
           <div>
-            <p class="text-sm font-medium text-gray-900 dark:text-white mb-3">Connect with me</p>
+            <p class="text-sm font-medium text-black dark:text-black slate:text-black mb-3">Connect with me</p>
             <div class="flex space-x-4">
               <a
                 href={data.contactInfo.socialLinks.github}
@@ -186,8 +188,8 @@
           </div>
 
           <div>
-            <p class="text-sm font-medium text-gray-900 dark:text-white">Availability</p>
-            <p class="text-gray-600 dark:text-gray-300">{data.contactInfo.availability}</p>
+            <p class="text-sm font-medium text-black dark:text-black slate:text-black">Availability</p>
+            <p class="text-black dark:text-black slate:text-black">{data.contactInfo.availability}</p>
           </div>
         </div>
       </div>

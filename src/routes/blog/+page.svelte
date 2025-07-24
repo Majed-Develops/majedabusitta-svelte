@@ -10,10 +10,12 @@
 
 <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
   <div class="mx-auto max-w-2xl text-center">
-    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-      Blog
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
+      <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Blog
+      </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
       Thoughts, tutorials, and insights on web development and technology.
     </p>
   </div>
@@ -39,13 +41,13 @@
         </div>
         
         <div class="group relative max-w-xl">
-          <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+          <h3 class="mt-3 text-lg font-semibold leading-6 text-black group-hover:text-blue-600 dark:text-black dark:group-hover:text-blue-400">
             <a href="/blog/{post.slug}">
               <span class="absolute inset-0"></span>
               {post.title}
             </a>
           </h3>
-          <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300 line-clamp-3">
+          <p class="mt-2 text-sm leading-6 text-black dark:text-black line-clamp-3">
             {post.excerpt}
           </p>
         </div>

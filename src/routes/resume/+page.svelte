@@ -11,10 +11,12 @@
 
 <div class="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8">
   <div class="text-center mb-16">
-    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-      Resume
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
+      <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Resume
+      </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
       My professional background and experience in web development.
     </p>
     
@@ -42,9 +44,9 @@
   <div class="space-y-12">
     <!-- Summary -->
     <section>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Professional Summary</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-4">Professional Summary</h2>
       <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p class="text-black dark:text-black slate:text-black leading-relaxed">
           {data.resumeData.sections.summary}
         </p>
       </div>
@@ -52,13 +54,13 @@
 
     <!-- Experience -->
     <section>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Experience</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Experience</h2>
       <div class="space-y-6">
         {#each data.resumeData.sections.experience as job}
           <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
               <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-lg font-semibold text-black dark:text-black slate:text-black">
                   {job.position}
                 </h3>
                 <p class="text-blue-600 dark:text-blue-400 font-medium">
@@ -69,7 +71,7 @@
                 {job.duration}
               </span>
             </div>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p class="text-black dark:text-black slate:text-black leading-relaxed">
               {job.description}
             </p>
           </div>
@@ -79,7 +81,7 @@
 
     <!-- Skills -->
     <section>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Technical Skills</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Technical Skills</h2>
       <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div class="flex flex-wrap gap-3">
           {#each data.resumeData.sections.skills as skill}
@@ -93,13 +95,13 @@
 
     <!-- Education -->
     <section>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Education</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Education</h2>
       <div class="space-y-4">
         {#each data.resumeData.sections.education as edu}
           <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
               <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-lg font-semibold text-black dark:text-black slate:text-black">
                   {edu.degree}
                 </h3>
                 <p class="text-blue-600 dark:text-blue-400 font-medium">
