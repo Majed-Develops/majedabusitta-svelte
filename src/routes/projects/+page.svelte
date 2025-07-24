@@ -19,7 +19,7 @@
         My Projects
       </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-white">
       A collection of projects I've built while learning and exploring new technologies.
     </p>
   </div>
@@ -27,7 +27,7 @@
   <!-- Featured Projects -->
   {#if featuredProjects.length > 0}
     <div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24">
-      <h2 class="text-2xl font-bold tracking-tight text-black dark:text-black slate:text-black mb-8">
+      <h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">
         Featured Projects
       </h2>
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -55,10 +55,10 @@
             {/if}
             
             <div class="flex-1">
-              <h3 class="text-xl font-semibold text-black dark:text-black slate:text-black">
+              <h3 class="text-xl font-semibold text-black dark:text-white">
                 {project.title}
               </h3>
-              <p class="mt-2 text-sm text-black dark:text-black slate:text-black">
+              <p class="mt-2 text-sm text-black dark:text-white">
                 {project.description}
               </p>
               
@@ -104,7 +104,7 @@
   <!-- Other Projects -->
   {#if otherProjects.length > 0}
     <div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24">
-      <h2 class="text-2xl font-bold tracking-tight text-black dark:text-black slate:text-black mb-8">
+      <h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">
         Other Projects
       </h2>
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -132,10 +132,10 @@
             {/if}
             
             <div class="flex-1">
-              <h3 class="text-lg font-semibold text-black dark:text-black slate:text-black">
+              <h3 class="text-lg font-semibold text-black dark:text-white">
                 {project.title}
               </h3>
-              <p class="mt-2 text-sm text-black dark:text-black slate:text-black line-clamp-3">
+              <p class="mt-2 text-sm text-black dark:text-white line-clamp-3">
                 {project.description}
               </p>
               

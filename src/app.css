@@ -21,36 +21,25 @@
   --secondary: #06b6d4;
 }
 
-.slate h1,
-.slate h2,
-.slate h3,
-.slate h4,
-.slate h5,
-.slate h6 {
-  color: #000000 !important;
-}
-
-.slate p,
-.slate span,
-.slate div {
-  color: #000000 !important;
-}
 
 .slate body {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  color: #e2e8f0;
 }
 
-.slate h1,
-.slate h2,
-.slate h3 {
-  color: #f8fafc;
-}
 
 .slate .bg-blue-600 {
   background: linear-gradient(135deg, #7c3aed, #06b6d4) !important;
   color: #ffffff !important;
 }
+
+/* Slate theme - solid purple text instead of gradient */
+.slate .text-transparent {
+  color: #a855f7 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+
 
 .slate .text-blue-600 {
   color: #7c3aed !important;
@@ -63,60 +52,25 @@
 
 /* About page custom styling */
 .about-content {
-  color: #000000 !important;
+  @apply text-black dark:text-white;
   font-size: 1.125rem;
   line-height: 1.75rem;
-}
-
-.dark .about-content,
-.dark .about-content *,
-.dark .about-content p,
-.dark .about-content div,
-.dark .about-content span,
-.dark .about-content ul,
-.dark .about-content ol,
-.dark .about-content li {
-  color: #000000 !important;
-}
-
-.dark .about-content h1,
-.dark .about-content h2,
-.dark .about-content h3,
-.dark .about-content h4,
-.dark .about-content h5,
-.dark .about-content h6 {
-  color: #489af7 !important;
-}
-
-.slate .about-content,
-.slate .about-content *,
-.slate .about-content p,
-.slate .about-content div,
-.slate .about-content span,
-.slate .about-content ul,
-.slate .about-content ol {
-  color: #000000 !important;
 }
 
 .about-content h2 {
   font-size: 2.25rem;
   font-weight: 700;
-  color: #2563eb;
+  @apply text-blue-600 dark:text-blue-400;
   margin-top: 4rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 3px solid #2563eb;
+  border-bottom: 3px solid;
+  @apply border-blue-600 dark:border-blue-400;
   position: relative;
 }
 
-.dark .about-content h2 {
-  color: #60a5fa;
-  border-bottom-color: #60a5fa;
-}
-
 .slate .about-content h2 {
-  color: #7c3aed !important;
-  border-bottom-color: #7c3aed !important;
+  @apply text-purple-600 border-purple-600;
 }
 
 .about-content h2::after {
@@ -138,51 +92,38 @@
 .about-content li {
   position: relative;
   padding: 0.75rem 0 0.75rem 2rem;
-  color: #000000 !important;
+  @apply text-black dark:text-white;
   font-size: 1.125rem;
   border-left: 3px solid transparent;
   transition: all 0.3s ease;
-}
-
-.dark .about-content li {
-  color: #000000 !important;
-}
-
-.slate .about-content li {
-  color: #000000 !important;
 }
 
 .about-content li::before {
   content: "▸";
   position: absolute;
   left: 0.5rem;
-  color: #2563eb;
+  @apply text-blue-600 dark:text-blue-400;
   font-weight: bold;
   font-size: 1.25rem;
 }
 
-.dark .about-content li::before {
-  color: #60a5fa;
-}
-
 .slate .about-content li::before {
-  color: #7c3aed !important;
+  @apply text-purple-600;
 }
 
 .about-content li:hover {
-  border-left-color: #2563eb;
+  @apply border-l-blue-600 dark:border-l-blue-400;
   padding-left: 2.5rem;
   background: rgba(37, 99, 235, 0.05);
 }
 
 .dark .about-content li:hover {
-  border-left-color: #60a5fa;
   background: rgba(96, 165, 250, 0.1);
 }
 
 .slate .about-content li:hover {
-  border-left-color: #7c3aed !important;
-  background: rgba(124, 58, 237, 0.1) !important;
+  @apply border-l-purple-600;
+  background: rgba(124, 58, 237, 0.1);
 }
 
 body {
@@ -193,16 +134,13 @@ body {
 
 /* Blog Content Styling */
 .blog-content {
-  @apply text-black dark:text-black;
+  @apply text-black dark:text-white;
 }
 
-.slate .blog-content {
-  @apply text-black;
-}
 
 /* Section Headers - Make them stand out */
 .blog-content h1 {
-  @apply text-4xl font-bold text-black dark:text-black;
+  @apply text-4xl font-bold text-black dark:text-white;
   border-bottom: 4px solid #2563eb;
   padding-bottom: 1rem;
   margin: 3rem 0 1.5rem 0;
@@ -214,7 +152,7 @@ body {
 }
 
 .slate .blog-content h1 {
-  @apply text-black;
+  @apply text-black dark:text-white;
   border-bottom-color: #7c3aed;
 }
 
@@ -230,7 +168,7 @@ body {
 }
 
 .blog-content h2 {
-  @apply text-3xl font-bold text-black dark:text-black mt-10 mb-5 pb-3 border-b-2 border-blue-500 dark:border-blue-400;
+  @apply text-3xl font-bold text-black dark:text-white mt-10 mb-5 pb-3 border-b-2 border-blue-500 dark:border-blue-400;
   position: relative;
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   padding: 1rem 1.5rem;
@@ -256,7 +194,7 @@ body {
 }
 
 .blog-content h3 {
-  @apply text-2xl font-semibold text-black dark:text-black mt-8 mb-4 pb-2 border-b border-blue-300 dark:border-blue-500;
+  @apply text-2xl font-semibold text-black dark:text-white mt-8 mb-4 pb-2 border-b border-blue-300 dark:border-blue-500;
   position: relative;
   padding-left: 1rem;
 }
@@ -273,13 +211,9 @@ body {
 }
 
 .blog-content h4 {
-  @apply text-xl font-semibold text-black dark:text-black mt-6 mb-3;
+  @apply text-xl font-semibold text-black dark:text-white mt-6 mb-3;
   position: relative;
   padding-left: 1.5rem;
-}
-
-.slate .blog-content h4 {
-  @apply text-black;
 }
 
 .blog-content h4::before {
@@ -293,11 +227,7 @@ body {
 
 /* Paragraphs with better spacing */
 .blog-content p {
-  @apply text-black dark:text-black leading-relaxed mb-6 text-lg;
-}
-
-.slate .blog-content p {
-  @apply text-black;
+  @apply text-black dark:text-white leading-relaxed mb-6 text-lg;
 }
 
 /* Lists with better styling */
@@ -307,12 +237,8 @@ body {
 }
 
 .blog-content li {
-  @apply text-black dark:text-black leading-relaxed pl-2 relative;
+  @apply text-black dark:text-white leading-relaxed pl-2 relative;
   position: relative;
-}
-
-.slate .blog-content li {
-  @apply text-black;
 }
 
 .blog-content ul li::before {
@@ -362,11 +288,11 @@ body {
 }
 
 .blog-content code {
-  @apply bg-blue-50 text-black dark:bg-blue-900/30 dark:text-black px-2 py-1 rounded text-sm font-mono;
+  @apply bg-blue-50 text-black dark:bg-blue-900/30 dark:text-white px-2 py-1 rounded text-sm font-mono;
 }
 
 .slate .blog-content code {
-  @apply bg-purple-900/30 text-black;
+  @apply bg-purple-900/30 text-black dark:text-white;
 }
 
 .blog-content pre code {
@@ -379,12 +305,12 @@ body {
 
 /* Blockquotes */
 .blog-content blockquote {
-  @apply border-l-4 border-blue-500 pl-6 py-4 my-8 bg-blue-50 dark:bg-blue-900/20 rounded-r-lg text-black dark:text-black;
+  @apply border-l-4 border-blue-500 pl-6 py-4 my-8 bg-blue-50 dark:bg-blue-900/20 rounded-r-lg text-black dark:text-white;
   position: relative;
 }
 
 .slate .blog-content blockquote {
-  @apply border-l-4 border-purple-500 bg-purple-900/20 text-black;
+  @apply border-l-4 border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-black dark:text-white;
 }
 
 .blog-content blockquote::before {
@@ -407,11 +333,11 @@ body {
 }
 
 .blog-content td {
-  @apply border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-700 dark:text-gray-300;
+  @apply border border-gray-300 dark:border-gray-600 px-4 py-3 text-black dark:text-white;
 }
 
 .slate .blog-content td {
-  @apply text-black border-slate-600;
+  @apply border-gray-300 dark:border-slate-600;
 }
 
 /* Links */
@@ -452,12 +378,12 @@ body {
 
 /* Slate theme support for blog content */
 .slate .blog-content h1 {
-  @apply border-b-4 border-purple-400 text-slate-100;
+  @apply border-b-4 border-purple-400;
 }
 
 .slate .blog-content h2 {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  @apply border-b-2 border-purple-400 text-slate-100;
+  @apply border-b-2 border-purple-400;
 }
 
 .slate .blog-content h2::before {
@@ -465,7 +391,7 @@ body {
 }
 
 .slate .blog-content h3 {
-  @apply border-b border-slate-400 text-black;
+  @apply border-b border-gray-300 dark:border-slate-400;
 }
 
 .slate .blog-content h3::before {
@@ -481,24 +407,16 @@ body {
   color: #7c3aed;
 }
 
-.slate .blog-content blockquote {
-  @apply border-l-4 border-purple-500 bg-purple-900/20;
-}
-
 .slate .blog-content blockquote::before {
   color: #7c3aed;
 }
 
-.slate .blog-content code {
-  @apply bg-purple-900/30 text-black;
-}
-
 .slate .blog-content a {
-  @apply text-purple-400 hover:text-black decoration-purple-500;
+  @apply text-purple-400 hover:text-purple-300 decoration-purple-500;
 }
 
 .slate .blog-content th {
-  @apply bg-purple-900/30 text-slate-100 border-slate-600;
+  @apply bg-purple-900/30 border-slate-600;
 }
 
 .slate .blog-content hr {

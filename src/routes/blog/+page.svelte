@@ -15,7 +15,7 @@
         Blog
       </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-white">
       Thoughts, tutorials, and insights on web development and technology.
     </p>
   </div>
@@ -41,13 +41,13 @@
         </div>
         
         <div class="group relative max-w-xl">
-          <h3 class="mt-3 text-lg font-semibold leading-6 text-black group-hover:text-blue-600 dark:text-black dark:group-hover:text-blue-400">
+          <h3 class="mt-3 text-lg font-semibold leading-6 text-black group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
             <a href="/blog/{post.slug}">
               <span class="absolute inset-0"></span>
               {post.title}
             </a>
           </h3>
-          <p class="mt-2 text-sm leading-6 text-black dark:text-black line-clamp-3">
+          <p class="mt-2 text-sm leading-6 text-black dark:text-white line-clamp-3">
             {post.excerpt}
           </p>
         </div>

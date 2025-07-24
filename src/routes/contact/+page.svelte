@@ -47,7 +47,7 @@
         Get in Touch
       </span>
     </h1>
-    <p class="mt-6 text-lg leading-8 text-black dark:text-black slate:text-black">
+    <p class="mt-6 text-lg leading-8 text-black dark:text-white">
       I'd love to hear from you! Whether you have a project in mind or just want to connect.
     </p>
   </div>
@@ -55,11 +55,11 @@
   <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 lg:grid-cols-2">
     <!-- Contact Form -->
     <div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Send me a message</h2>
+      <h2 class="text-2xl font-bold text-black dark:text-white mb-6">Send me a message</h2>
       
       <form onsubmit={handleSubmit} class="space-y-6">
         <div>
-          <label for="name" class="block text-sm font-medium text-black dark:text-black slate:text-black">
+          <label for="name" class="block text-sm font-medium text-black dark:text-white">
             Name
           </label>
           <input
@@ -72,7 +72,7 @@
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium text-black dark:text-black slate:text-black">
+          <label for="email" class="block text-sm font-medium text-black dark:text-white">
             Email
           </label>
           <input
@@ -85,7 +85,7 @@
         </div>
 
         <div>
-          <label for="subject" class="block text-sm font-medium text-black dark:text-black slate:text-black">
+          <label for="subject" class="block text-sm font-medium text-black dark:text-white">
             Subject
           </label>
           <input
@@ -98,7 +98,7 @@
         </div>
 
         <div>
-          <label for="message" class="block text-sm font-medium text-black dark:text-black slate:text-black">
+          <label for="message" class="block text-sm font-medium text-black dark:text-white">
             Message
           </label>
           <textarea
@@ -139,7 +139,7 @@
     <!-- Contact Info -->
     <div class="space-y-8">
       <div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <h2 class="text-2xl font-bold text-black dark:text-black slate:text-black mb-6">Contact Information</h2>
+        <h2 class="text-2xl font-bold text-black dark:text-white mb-6">Contact Information</h2>
         
         <div class="space-y-6">
           <div class="flex items-center space-x-4">
@@ -147,7 +147,7 @@
               <Icons name="email" size={24} class="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p class="text-sm font-medium text-black dark:text-black slate:text-black">Email</p>
+              <p class="text-sm font-medium text-black dark:text-white">Email</p>
               <a href="mailto:{data.contactInfo.email}" class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
                 {data.contactInfo.email}
               </a>
@@ -155,7 +155,7 @@
           </div>
 
           <div>
-            <p class="text-sm font-medium text-black dark:text-black slate:text-black mb-3">Connect with me</p>
+            <p class="text-sm font-medium text-black dark:text-white mb-3">Connect with me</p>
             <div class="flex space-x-4">
               <a
                 href={data.contactInfo.socialLinks.github}
@@ -188,8 +188,8 @@
           </div>
 
           <div>
-            <p class="text-sm font-medium text-black dark:text-black slate:text-black">Availability</p>
-            <p class="text-black dark:text-black slate:text-black">{data.contactInfo.availability}</p>
+            <p class="text-sm font-medium text-black dark:text-white">Availability</p>
+            <p class="text-black dark:text-white">{data.contactInfo.availability}</p>
           </div>
         </div>
       </div>
