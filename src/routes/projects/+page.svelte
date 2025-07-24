@@ -2,7 +2,7 @@
   import type { PageData } from './$types';
   import Icons from '$lib/components/Icons.svelte';
   
-  export let data: PageData;
+  let { data }: { data: PageData } = $props();
   
   let featuredProjects = $derived(data.projects.filter(project => project.featured));
   let otherProjects = $derived(data.projects.filter(project => !project.featured));
