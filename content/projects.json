@@ -3,13 +3,7 @@
     "id": "score-buddies",
     "title": "Score Buddies",
     "description": "A full-stack task management application built with SvelteKit, featuring real-time collaboration, authentication, and beautiful UI.",
-    "techStack": [
-      "SvelteKit",
-      "TypeScript",
-      "SQLite",
-      "Drizzle ORM",
-      "Lucia Auth"
-    ],
+    "techStack": ["SvelteKit", "TypeScript","SQLite", "Drizzle ORM", "Lucia Auth"],
     "liveUrl": "https://score-buddies.pages.dev/",
     "githubUrl": "https://github.com/Majed-Develops/Score-Buddies",
     "imageUrl": "/images/Score_buddies.png",
@@ -48,13 +42,13 @@
     "featured": true
   },
   {
-    "id": "portfolio-website",
-    "title": "majedabusitta - svelte",
-    "description": "My portfolio in Svelte instead of React/Next.js - featuring smooth animations, multiple themes, and modern design",
-    "techStack": ["SvelteKit", "TypeScript", "Tailwind CSS", "Vite"],
-    "liveUrl": "https://f2369a32.majedabusitta-svelte.pages.dev/",
-    "githubUrl": "https://github.com/majed-develops/majedabusitta-svelte",
-    "imageUrl": "/images/majedabusitta-svelte.png",
+    "id": "islamic-game-app",
+    "title": "suhba",
+    "description": "Islamic learning platform with Quran games, prayer times, and educational quizzes - built with modern web technologies for an engaging spiritual experience",
+    "techStack": ["SvelteKit", "TypeScript", "Tailwind CSS", "WebSockets"],    
+    "liveUrl": "https://b03093bf.suhba.pages.dev/",
+    "githubUrl": "https://github.com/Majed-Develops/suhba",
+    "imageUrl": "/images/suhba.png",
     "featured": true
   }
 ]

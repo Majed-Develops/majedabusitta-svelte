@@ -16,16 +16,22 @@
       "_html.js"
     ]
   },
+  "_ThemeToggle.js": {
+    "file": "chunks/ThemeToggle.js",
+    "name": "ThemeToggle",
+    "imports": [
+      "_index.js",
+      "_index2.js",
+      "_Icons.js"
+    ]
+  },
   "_content.js": {
     "file": "chunks/content.js",
     "name": "content"
   },
   "_exports.js": {
     "file": "chunks/exports.js",
-    "name": "exports",
-    "imports": [
-      "_index.js"
-    ]
+    "name": "exports"
   },
   "_html.js": {
     "file": "chunks/html.js",
@@ -34,6 +40,13 @@
   "_index.js": {
     "file": "chunks/index.js",
     "name": "index"
+  },
+  "_index2.js": {
+    "file": "chunks/index2.js",
+    "name": "index",
+    "imports": [
+      "_index.js"
+    ]
   },
   "_internal.js": {
     "file": "chunks/internal.js",
@@ -57,7 +70,8 @@
     "imports": [
       "_index.js",
       "_state.svelte.js",
-      "_exports.js"
+      "_exports.js",
+      "_index2.js"
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
@@ -68,7 +82,8 @@
     "imports": [
       "_index.js",
       "_internal.js",
-      "_exports.js"
+      "_exports.js",
+      "_index2.js"
     ]
   },
   "src/routes/+layout.svelte": {
@@ -80,10 +95,11 @@
       "_index.js",
       "_exports.js",
       "_state.svelte.js",
+      "_ThemeToggle.js",
       "_Icons.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.BeW_0wQj.css"
+      "_app/immutable/assets/_layout.C4CpyN3F.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -92,7 +108,12 @@
     "src": "src/routes/+page.svelte",
     "isEntry": true,
     "imports": [
-      "_index.js"
+      "_index.js",
+      "_Icons.js",
+      "_ThemeToggle.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Cc92WQi4.css"
     ]
   },
   "src/routes/about/+page.server.ts": {

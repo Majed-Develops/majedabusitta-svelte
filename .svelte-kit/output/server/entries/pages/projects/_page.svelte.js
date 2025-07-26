@@ -8,11 +8,11 @@ function _page($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Projects - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">My Projects</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">A collection of projects I've built while learning and exploring new technologies.</p></div> `);
+  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">My Projects</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">A collection of projects I've built while learning and exploring new technologies.</p></div> `);
   if (featuredProjects.length > 0) {
     $$payload.out.push("<!--[-->");
     const each_array = ensure_array_like(featuredProjects);
-    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-8">Featured Projects</h2> <div class="grid grid-cols-1 gap-8 lg:grid-cols-2"><!--[-->`);
+    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">Featured Projects</h2> <div class="grid grid-cols-1 gap-8 lg:grid-cols-2"><!--[-->`);
     for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
       let project = each_array[$$index_1];
       const each_array_1 = ensure_array_like(project.techStack);
@@ -30,7 +30,7 @@ function _page($$payload, $$props) {
         }
         $$payload.out.push(`<!--]-->`);
       }
-      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-xl font-semibold text-gray-900 dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
+      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-xl font-semibold text-black dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-black dark:text-white">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
       for (let $$index = 0, $$length2 = each_array_1.length; $$index < $$length2; $$index++) {
         let tech = each_array_1[$$index];
         $$payload.out.push(`<span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-400/20">${escape_html(tech)}</span>`);
@@ -63,7 +63,7 @@ function _page($$payload, $$props) {
   if (otherProjects.length > 0) {
     $$payload.out.push("<!--[-->");
     const each_array_2 = ensure_array_like(otherProjects);
-    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-8">Other Projects</h2> <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"><!--[-->`);
+    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">Other Projects</h2> <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"><!--[-->`);
     for (let $$index_3 = 0, $$length = each_array_2.length; $$index_3 < $$length; $$index_3++) {
       let project = each_array_2[$$index_3];
       const each_array_3 = ensure_array_like(project.techStack.slice(0, 3));
@@ -81,7 +81,7 @@ function _page($$payload, $$props) {
         }
         $$payload.out.push(`<!--]-->`);
       }
-      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
+      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-lg font-semibold text-black dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-black dark:text-white line-clamp-3">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
       for (let $$index_2 = 0, $$length2 = each_array_3.length; $$index_2 < $$length2; $$index_2++) {
         let tech = each_array_3[$$index_2];
         $$payload.out.push(`<span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-400/20">${escape_html(tech)}</span>`);

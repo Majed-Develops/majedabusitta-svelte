@@ -6,7 +6,7 @@ function _page($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Blog - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">Blog</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">Thoughts, tutorials, and insights on web development and technology.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"><!--[-->`);
+  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Blog</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">Thoughts, tutorials, and insights on web development and technology.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"><!--[-->`);
   for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
     let post = each_array[$$index_1];
     const each_array_1 = ensure_array_like(post.tags);
@@ -15,7 +15,7 @@ function _page($$payload, $$props) {
       let tag = each_array_1[$$index];
       $$payload.out.push(`<span class="relative z-10 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30">${escape_html(tag)}</span>`);
     }
-    $$payload.out.push(`<!--]--></div></div> <div class="group relative max-w-xl"><h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400"><a${attr("href", `/blog/${stringify(post.slug)}`)}><span class="absolute inset-0"></span> ${escape_html(post.title)}</a></h3> <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300 line-clamp-3">${escape_html(post.excerpt)}</p></div></article>`);
+    $$payload.out.push(`<!--]--></div></div> <div class="group relative max-w-xl"><h3 class="mt-3 text-lg font-semibold leading-6 text-black group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400"><a${attr("href", `/blog/${stringify(post.slug)}`)}><span class="absolute inset-0"></span> ${escape_html(post.title)}</a></h3> <p class="mt-2 text-sm leading-6 text-black dark:text-white line-clamp-3">${escape_html(post.excerpt)}</p></div></article>`);
   }
   $$payload.out.push(`<!--]--></div></div>`);
   pop();

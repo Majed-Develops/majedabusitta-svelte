@@ -1621,6 +1621,9 @@ function to_class(value, hash, directives) {
   var classname = value == null ? "" : "" + value;
   return classname === "" ? null : classname;
 }
+function to_style(value, styles) {
+  return value == null ? null : String(value);
+}
 function subscribe_to_store(store, run, invalidate) {
   if (store == null) {
     run(void 0);
@@ -1771,6 +1774,10 @@ function attr_class(value, hash, directives) {
   var result = to_class(value);
   return result ? ` class="${escape_html(result, true)}"` : "";
 }
+function attr_style(value, directives) {
+  var result = to_style(value);
+  return result ? ` style="${escape_html(result, true)}"` : "";
+}
 function store_get(store_values, store_name, store) {
   if (store_name in store_values && store_values[store_name][0] === store) {
     return store_values[store_name][2];
@@ -1823,8 +1830,9 @@ export {
   head as O,
   slot as P,
   noop as Q,
-  safe_not_equal as R,
-  clsx as S,
+  attr_style as R,
+  safe_not_equal as S,
+  clsx as T,
   set_active_effect as a,
   active_effect as b,
   active_reaction as c,

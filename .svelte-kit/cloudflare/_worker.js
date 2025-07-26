@@ -1287,6 +1287,9 @@ function to_class(value, hash2, directives) {
   var classname = value == null ? "" : "" + value;
   return classname === "" ? null : classname;
 }
+function to_style(value, styles) {
+  return value == null ? null : String(value);
+}
 function subscribe_to_store(store, run, invalidate) {
   if (store == null) {
     run(void 0);
@@ -1400,6 +1403,10 @@ function stringify(value) {
 function attr_class(value, hash2, directives) {
   var result = to_class(value);
   return result ? ` class="${escape_html(result, true)}"` : "";
+}
+function attr_style(value, directives) {
+  var result = to_style(value);
+  return result ? ` style="${escape_html(result, true)}"` : "";
 }
 function store_get(store_values, store_name, store) {
   if (store_name in store_values && store_values[store_name][0] === store) {
@@ -2102,6 +2109,77 @@ function allow_nodejs_console_log(url) {
     };
   }
 }
+function validator(expected) {
+  function validate(module, file) {
+    if (!module) return;
+    for (const key3 in module) {
+      if (key3[0] === "_" || expected.has(key3)) continue;
+      const values = [...expected.values()];
+      const hint = hint_for_supported_files(key3, file?.slice(file.lastIndexOf("."))) ?? `valid exports are ${values.join(", ")}, or anything with a '_' prefix`;
+      throw new Error(`Invalid export '${key3}'${file ? ` in ${file}` : ""} (${hint})`);
+    }
+  }
+  return validate;
+}
+function hint_for_supported_files(key3, ext = ".js") {
+  const supported_files = [];
+  if (valid_layout_exports.has(key3)) {
+    supported_files.push(`+layout${ext}`);
+  }
+  if (valid_page_exports.has(key3)) {
+    supported_files.push(`+page${ext}`);
+  }
+  if (valid_layout_server_exports.has(key3)) {
+    supported_files.push(`+layout.server${ext}`);
+  }
+  if (valid_page_server_exports.has(key3)) {
+    supported_files.push(`+page.server${ext}`);
+  }
+  if (valid_server_exports.has(key3)) {
+    supported_files.push(`+server${ext}`);
+  }
+  if (supported_files.length > 0) {
+    return `'${key3}' is a valid export in ${supported_files.slice(0, -1).join(", ")}${supported_files.length > 1 ? " or " : ""}${supported_files.at(-1)}`;
+  }
+}
+var internal, valid_layout_exports, valid_page_exports, valid_layout_server_exports, valid_page_server_exports, valid_server_exports, validate_layout_exports, validate_page_exports, validate_layout_server_exports, validate_page_server_exports, validate_server_exports;
+var init_exports2 = __esm({
+  ".svelte-kit/output/server/chunks/exports.js"() {
+    internal = new URL("sveltekit-internal://");
+    valid_layout_exports = /* @__PURE__ */ new Set([
+      "load",
+      "prerender",
+      "csr",
+      "ssr",
+      "trailingSlash",
+      "config"
+    ]);
+    valid_page_exports = /* @__PURE__ */ new Set([...valid_layout_exports, "entries"]);
+    valid_layout_server_exports = /* @__PURE__ */ new Set([...valid_layout_exports]);
+    valid_page_server_exports = /* @__PURE__ */ new Set([...valid_layout_server_exports, "actions", "entries"]);
+    valid_server_exports = /* @__PURE__ */ new Set([
+      "GET",
+      "POST",
+      "PATCH",
+      "PUT",
+      "DELETE",
+      "OPTIONS",
+      "HEAD",
+      "fallback",
+      "prerender",
+      "trailingSlash",
+      "config",
+      "entries"
+    ]);
+    validate_layout_exports = validator(valid_layout_exports);
+    validate_page_exports = validator(valid_page_exports);
+    validate_layout_server_exports = validator(valid_layout_server_exports);
+    validate_page_server_exports = validator(valid_page_server_exports);
+    validate_server_exports = validator(valid_server_exports);
+  }
+});
+
+// .svelte-kit/output/server/chunks/index2.js
 function readable(value, start) {
   return {
     subscribe: writable(value, start).subscribe
@@ -2154,76 +2232,12 @@ function writable(value, start = noop) {
   }
   return { set: set2, update, subscribe };
 }
-function validator(expected) {
-  function validate(module, file) {
-    if (!module) return;
-    for (const key3 in module) {
-      if (key3[0] === "_" || expected.has(key3)) continue;
-      const values = [...expected.values()];
-      const hint = hint_for_supported_files(key3, file?.slice(file.lastIndexOf("."))) ?? `valid exports are ${values.join(", ")}, or anything with a '_' prefix`;
-      throw new Error(`Invalid export '${key3}'${file ? ` in ${file}` : ""} (${hint})`);
-    }
-  }
-  return validate;
-}
-function hint_for_supported_files(key3, ext = ".js") {
-  const supported_files = [];
-  if (valid_layout_exports.has(key3)) {
-    supported_files.push(`+layout${ext}`);
-  }
-  if (valid_page_exports.has(key3)) {
-    supported_files.push(`+page${ext}`);
-  }
-  if (valid_layout_server_exports.has(key3)) {
-    supported_files.push(`+layout.server${ext}`);
-  }
-  if (valid_page_server_exports.has(key3)) {
-    supported_files.push(`+page.server${ext}`);
-  }
-  if (valid_server_exports.has(key3)) {
-    supported_files.push(`+server${ext}`);
-  }
-  if (supported_files.length > 0) {
-    return `'${key3}' is a valid export in ${supported_files.slice(0, -1).join(", ")}${supported_files.length > 1 ? " or " : ""}${supported_files.at(-1)}`;
-  }
-}
-var internal, subscriber_queue, valid_layout_exports, valid_page_exports, valid_layout_server_exports, valid_page_server_exports, valid_server_exports, validate_layout_exports, validate_page_exports, validate_layout_server_exports, validate_page_server_exports, validate_server_exports;
-var init_exports2 = __esm({
-  ".svelte-kit/output/server/chunks/exports.js"() {
+var subscriber_queue;
+var init_index2 = __esm({
+  ".svelte-kit/output/server/chunks/index2.js"() {
     init_chunks();
     init_clsx();
-    internal = new URL("sveltekit-internal://");
     subscriber_queue = [];
-    valid_layout_exports = /* @__PURE__ */ new Set([
-      "load",
-      "prerender",
-      "csr",
-      "ssr",
-      "trailingSlash",
-      "config"
-    ]);
-    valid_page_exports = /* @__PURE__ */ new Set([...valid_layout_exports, "entries"]);
-    valid_layout_server_exports = /* @__PURE__ */ new Set([...valid_layout_exports]);
-    valid_page_server_exports = /* @__PURE__ */ new Set([...valid_layout_server_exports, "actions", "entries"]);
-    valid_server_exports = /* @__PURE__ */ new Set([
-      "GET",
-      "POST",
-      "PATCH",
-      "PUT",
-      "DELETE",
-      "OPTIONS",
-      "HEAD",
-      "fallback",
-      "prerender",
-      "trailingSlash",
-      "config",
-      "entries"
-    ]);
-    validate_layout_exports = validator(valid_layout_exports);
-    validate_page_exports = validator(valid_page_exports);
-    validate_layout_server_exports = validator(valid_layout_server_exports);
-    validate_page_server_exports = validator(valid_page_server_exports);
-    validate_server_exports = validator(valid_server_exports);
   }
 });
 
@@ -2601,11 +2615,7 @@ var init_Icons = __esm({
   }
 });
 
-// .svelte-kit/output/server/entries/pages/_layout.svelte.js
-var layout_svelte_exports = {};
-__export(layout_svelte_exports, {
-  default: () => _layout
-});
+// .svelte-kit/output/server/chunks/ThemeToggle.js
 function createThemeStore() {
   const initialTheme = defaultTheme;
   const { subscribe, set: set2, update } = writable(initialTheme);
@@ -2635,6 +2645,23 @@ function ThemeToggle($$payload, $$props) {
   $$payload.out.push(`<!----> <svg class="absolute h-5 w-5 rotate-180 scale-0 transition-all slate:rotate-0 slate:scale-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></button>`);
   pop();
 }
+var defaultTheme, theme;
+var init_ThemeToggle = __esm({
+  ".svelte-kit/output/server/chunks/ThemeToggle.js"() {
+    init_clsx();
+    init_chunks();
+    init_index2();
+    init_Icons();
+    defaultTheme = "light";
+    theme = createThemeStore();
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/_layout.svelte.js
+var layout_svelte_exports = {};
+__export(layout_svelte_exports, {
+  default: () => _layout
+});
 function Header($$payload, $$props) {
   push();
   var $$store_subs;
@@ -2706,7 +2733,7 @@ function _layout($$payload, $$props) {
   $$payload.out.push(`<!----></div>`);
   pop();
 }
-var getStores, page, defaultTheme, theme;
+var getStores, page;
 var init_layout_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/_layout.svelte.js"() {
     init_chunks();
@@ -2714,6 +2741,7 @@ var init_layout_svelte = __esm({
     init_exports2();
     init_clsx();
     init_state_svelte();
+    init_ThemeToggle();
     init_Icons();
     getStores = () => {
       const stores$1 = getContext("__svelte__");
@@ -2736,8 +2764,6 @@ var init_layout_svelte = __esm({
         return store.subscribe(fn);
       }
     };
-    defaultTheme = "light";
-    theme = createThemeStore();
   }
 });
 
@@ -2755,8 +2781,8 @@ var init__ = __esm({
   ".svelte-kit/output/server/nodes/0.js"() {
     index = 0;
     component = async () => component_cache ??= (await Promise.resolve().then(() => (init_layout_svelte(), layout_svelte_exports))).default;
-    imports = ["_app/immutable/nodes/0.CfdhjGvi.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/DOFDCt5E.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/Cq5Sg4Pf.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/hGDXmQVd.js", "_app/immutable/chunks/CdlsUkWG.js", "_app/immutable/chunks/BoYayNJO.js", "_app/immutable/chunks/6FRl9e4y.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js", "_app/immutable/chunks/mDb9_bB4.js"];
-    stylesheets = ["_app/immutable/assets/0.BeW_0wQj.css"];
+    imports = ["_app/immutable/nodes/0.D03nJn3M.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/C-v6GWRO.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/Bl4h6Qc0.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/Ptpkwzz3.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/aw5bjNSR.js", "_app/immutable/chunks/CB4rgJj8.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js", "_app/immutable/chunks/3fYz-GZE.js", "_app/immutable/chunks/DrOw9fpP.js"];
+    stylesheets = ["_app/immutable/assets/0.C4CpyN3F.css"];
     fonts = [];
   }
 });
@@ -2792,6 +2818,7 @@ var init_error_svelte = __esm({
     init_state_svelte();
     init_internal();
     init_exports2();
+    init_index2();
     stores = {
       updated: /* @__PURE__ */ create_updated_store()
     };
@@ -2824,7 +2851,7 @@ var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     index2 = 1;
     component2 = async () => component_cache2 ??= (await Promise.resolve().then(() => (init_error_svelte(), error_svelte_exports))).default;
-    imports2 = ["_app/immutable/nodes/1.YRMGsHQ5.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/DOFDCt5E.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/mDb9_bB4.js", "_app/immutable/chunks/Cq5Sg4Pf.js", "_app/immutable/chunks/CUAHUuVc.js"];
+    imports2 = ["_app/immutable/nodes/1.DtaKp3gM.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/C-v6GWRO.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/3fYz-GZE.js", "_app/immutable/chunks/Bl4h6Qc0.js", "_app/immutable/chunks/BVhK3JSu.js"];
     stylesheets2 = [];
     fonts2 = [];
   }
@@ -2837,23 +2864,99 @@ __export(page_svelte_exports, {
 });
 function _page($$payload, $$props) {
   push();
+  const featuredProjects = [
+    {
+      title: "Score Buddies",
+      description: "Full-stack task management with real-time collaboration, authentication, and beautiful UI.",
+      techStack: [
+        "SvelteKit",
+        "TypeScript",
+        "SQLite",
+        "Drizzle ORM",
+        "Lucia Auth"
+      ],
+      liveUrl: "https://score-buddies.pages.dev/",
+      githubUrl: "https://github.com/Majed-Develops/Score-Buddies",
+      image: "/images/Score_buddies.png"
+    },
+    {
+      title: "Balagh",
+      description: "Modern React application helping Muslims share their faith with beautiful resources and tools.",
+      techStack: ["React 19", "Vite", "Tailwind CSS", "Radix UI"],
+      liveUrl: "https://balagh.pages.dev/",
+      githubUrl: "https://github.com/Majed-Develops/balagh",
+      image: "/images/balagh.png"
+    },
+    {
+      title: "Study Buddy",
+      description: "Responsive React app combining Pomodoro timer and exam system using modern JS and Web Audio API.",
+      techStack: ["React 19", "Vite", "JavaScript ES6+", "CSS"],
+      liveUrl: "https://study-buddy-aln.pages.dev/",
+      githubUrl: "https://github.com/Majed-Develops/study-buddy",
+      image: "/images/study-buddy.png"
+    }
+  ];
+  const each_array = ensure_array_like(featuredProjects);
+  const each_array_2 = ensure_array_like([
+    { name: "Prompt Engineering", level: 95 },
+    { name: "JavaScript/TypeScript", level: 85 },
+    { name: "React & Svelte", level: 80 },
+    { name: "Node.js & APIs", level: 75 },
+    { name: "Cybersecurity", level: 70 }
+  ]);
+  const each_array_3 = ensure_array_like([
+    "Problem Solving",
+    "Self-Learning",
+    "Clear Communication",
+    "Creative Thinking",
+    "VS Code",
+    "GitHub",
+    "Cloudflare Pages",
+    "Terminal/CLI"
+  ]);
   head($$payload, ($$payload2) => {
-    $$payload2.title = `<title>Majed Abu Sitta - Full Stack Developer</title>`;
+    $$payload2.title = `<title>Majed Abu Sitta - Full Stack Developer &amp; Cybersecurity Student</title>`;
+    $$payload2.out.push(`<meta name="description" content="Prompt engineer and future full-stack developer specializing in modern web development, AI, and cybersecurity. Building meaningful solutions with React, Svelte, and Node.js."/>`);
   });
-  $$payload.out.push(`<div class="relative isolate"><div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true"><div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blue-600 to-purple-600 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div></div> <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">`);
+  $$payload.out.push(`<div class="fixed top-6 right-6 z-50">`);
+  ThemeToggle($$payload);
+  $$payload.out.push(`<!----></div> <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden"><div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true"><div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blue-600 to-purple-600 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div></div> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">`);
   {
     $$payload.out.push("<!--[!-->");
   }
-  $$payload.out.push(`<!--]--> `);
-  {
-    $$payload.out.push("<!--[!-->");
+  $$payload.out.push(`<!--]--></div> <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"><button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors" aria-label="Scroll to About section"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg></button></div></section> <section id="about" class="py-24 bg-gray-50 dark:bg-gray-800 slate:bg-slate-800"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="lg:text-center"><h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white slate:text-white sm:text-4xl">About Me</h2> <p class="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300 slate:text-slate-300 lg:mx-auto">I'm a prompt engineer and future full-stack developer who thrives on building meaningful, real-world solutions with modern web tools.</p></div> <div class="mt-16"><div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"><div class="relative group"><div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-200"></div> <div class="relative px-6 py-8 bg-white dark:bg-gray-900 slate:bg-slate-900 rounded-lg leading-none"><div class="text-blue-600 mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white slate:text-white">Education</h3> <p class="mt-2 text-gray-600 dark:text-gray-300 slate:text-slate-300">Bachelor's in Cybersecurity (July 2025) - Blending security awareness with development finesse.</p></div></div> <div class="relative group"><div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-200"></div> <div class="relative px-6 py-8 bg-white dark:bg-gray-900 slate:bg-slate-900 rounded-lg leading-none"><div class="text-blue-600 mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white slate:text-white">Expertise</h3> <p class="mt-2 text-gray-600 dark:text-gray-300 slate:text-slate-300">Prompt Engineering, Full-Stack Development, and creating AI-enhanced solutions for real-world problems.</p></div></div> <div class="relative group"><div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-200"></div> <div class="relative px-6 py-8 bg-white dark:bg-gray-900 slate:bg-slate-900 rounded-lg leading-none"><div class="text-blue-600 mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white slate:text-white">Focus</h3> <p class="mt-2 text-gray-600 dark:text-gray-300 slate:text-slate-300">Building elegant UIs, powerful backends, and optimized solutions for speed and accessibility.</p></div></div></div></div></div></section> <section id="projects" class="py-24"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="lg:text-center"><h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white slate:text-white sm:text-4xl">Featured Projects</h2> <p class="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300 slate:text-slate-300 lg:mx-auto">A selection of my recent work showcasing modern web development and problem-solving skills.</p></div> <div class="mt-16 grid gap-8 lg:grid-cols-3 md:grid-cols-2"><!--[-->`);
+  for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
+    let project = each_array[$$index_1];
+    const each_array_1 = ensure_array_like(project.techStack);
+    $$payload.out.push(`<div class="group relative bg-white dark:bg-gray-900 slate:bg-slate-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 slate:border-slate-700"><div class="aspect-video overflow-hidden"><img${attr("src", project.image)}${attr("alt", project.title)} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"/></div> <div class="p-6"><h3 class="text-xl font-semibold text-gray-900 dark:text-white slate:text-white mb-2">${escape_html(project.title)}</h3> <p class="text-gray-600 dark:text-gray-300 slate:text-slate-300 mb-4 text-sm leading-relaxed">${escape_html(project.description)}</p> <div class="flex flex-wrap gap-2 mb-4"><!--[-->`);
+    for (let $$index = 0, $$length2 = each_array_1.length; $$index < $$length2; $$index++) {
+      let tech = each_array_1[$$index];
+      $$payload.out.push(`<span class="px-2 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900 slate:bg-slate-700 text-blue-800 dark:text-blue-200 slate:text-slate-200 rounded-md">${escape_html(tech)}</span>`);
+    }
+    $$payload.out.push(`<!--]--></div> <div class="flex gap-3"><a${attr("href", project.liveUrl)} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">`);
+    Icons($$payload, { name: "external", size: 14 });
+    $$payload.out.push(`<!----> Live Demo</a> <a${attr("href", project.githubUrl)} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">`);
+    Icons($$payload, { name: "github", size: 14 });
+    $$payload.out.push(`<!----> Code</a></div></div></div>`);
   }
-  $$payload.out.push(`<!--]--></div> <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true"><div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-purple-600 to-blue-600 opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div></div></div>`);
+  $$payload.out.push(`<!--]--></div></div></section> <section id="skills" class="py-24 bg-gray-50 dark:bg-gray-800 slate:bg-slate-800"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="lg:text-center"><h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white slate:text-white sm:text-4xl">Skills &amp; Experience</h2></div> <div class="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2"><div><h3 class="text-lg font-semibold text-gray-900 dark:text-white slate:text-white mb-6">Technical Skills</h3> <div class="space-y-4"><!--[-->`);
+  for (let $$index_2 = 0, $$length = each_array_2.length; $$index_2 < $$length; $$index_2++) {
+    let skill = each_array_2[$$index_2];
+    $$payload.out.push(`<div><div class="flex justify-between mb-1"><span class="text-sm font-medium text-gray-700 dark:text-gray-300 slate:text-slate-300">${escape_html(skill.name)}</span> <span class="text-sm text-gray-500 dark:text-gray-400 slate:text-slate-400">${escape_html(skill.level)}%</span></div> <div class="w-full bg-gray-200 dark:bg-gray-700 slate:bg-slate-700 rounded-full h-2"><div class="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-out"${attr_style(`width: ${stringify(skill.level)}%`)}></div></div></div>`);
+  }
+  $$payload.out.push(`<!--]--></div></div> <div><h3 class="text-lg font-semibold text-gray-900 dark:text-white slate:text-white mb-6">Tools &amp; Soft Skills</h3> <div class="grid grid-cols-2 gap-4"><!--[-->`);
+  for (let $$index_3 = 0, $$length = each_array_3.length; $$index_3 < $$length; $$index_3++) {
+    let item = each_array_3[$$index_3];
+    $$payload.out.push(`<div class="flex items-center space-x-2"><svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> <span class="text-sm text-gray-700 dark:text-gray-300 slate:text-slate-300">${escape_html(item)}</span></div>`);
+  }
+  $$payload.out.push(`<!--]--></div></div></div></div></section> <section id="contact" class="py-24"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="lg:text-center"><h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white slate:text-white sm:text-4xl">Let's Work Together</h2> <p class="mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300 slate:text-slate-300 lg:mx-auto">Ready to bring your ideas to life? I'm always interested in discussing new opportunities and projects.</p></div> <div class="mt-16 max-w-lg mx-auto"><div class="bg-white dark:bg-gray-900 slate:bg-slate-900 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700 slate:border-slate-700"><form class="space-y-6"><div><label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 slate:text-slate-300">Name</label> <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 slate:border-slate-600 bg-white dark:bg-gray-800 slate:bg-slate-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:text-white slate:text-white" required/></div> <div><label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 slate:text-slate-300">Email</label> <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 slate:border-slate-600 bg-white dark:bg-gray-800 slate:bg-slate-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:text-white slate:text-white" required/></div> <div><label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 slate:text-slate-300">Message</label> <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 slate:border-slate-600 bg-white dark:bg-gray-800 slate:bg-slate-800 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:text-white slate:text-white" required></textarea></div> <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">Send Message</button></form> <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 slate:border-slate-700"><p class="text-sm text-gray-600 dark:text-gray-400 slate:text-slate-400 text-center mb-4">Or reach out directly:</p> <div class="flex justify-center space-x-6"><a href="mailto:majed@example.com" class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Email</a> <a href="https://www.linkedin.com/in/majed-bashir" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">LinkedIn</a> <a href="https://github.com/majed-develops" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">GitHub</a></div></div></div></div></div></section> <footer class="bg-gray-50 dark:bg-gray-900 slate:bg-slate-900 border-t border-gray-200 dark:border-gray-700 slate:border-slate-700"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"><div class="text-center"><p class="text-gray-600 dark:text-gray-400 slate:text-slate-400">\xA9 2025 Majed Abu Sitta. Built with SvelteKit and Tailwind CSS.</p></div></div></footer>`);
   pop();
 }
 var init_page_svelte = __esm({
   ".svelte-kit/output/server/entries/pages/_page.svelte.js"() {
     init_chunks();
+    init_Icons();
+    init_ThemeToggle();
   }
 });
 
@@ -2871,8 +2974,8 @@ var init__3 = __esm({
   ".svelte-kit/output/server/nodes/2.js"() {
     index3 = 2;
     component3 = async () => component_cache3 ??= (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default;
-    imports3 = ["_app/immutable/nodes/2.DsrTi0rh.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/DOFDCt5E.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/Cq5Sg4Pf.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/hGDXmQVd.js", "_app/immutable/chunks/6FRl9e4y.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/BoYayNJO.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js"];
-    stylesheets3 = [];
+    imports3 = ["_app/immutable/nodes/2.D9z1FVl7.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/C-v6GWRO.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/Bl4h6Qc0.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/Ptpkwzz3.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/aw5bjNSR.js", "_app/immutable/chunks/CB4rgJj8.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js", "_app/immutable/chunks/DrOw9fpP.js"];
+    stylesheets3 = ["_app/immutable/assets/2.Cc92WQi4.css"];
     fonts3 = [];
   }
 });
@@ -18657,7 +18760,7 @@ function _page2($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>About - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl lg:mx-0"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">About Me</h1> <div class="mt-6 about-content">${html(data.aboutContent)}</div></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3"><div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div> <h3 class="text-xl font-bold mb-3">Active Projects</h3> <p class="text-blue-100 text-sm leading-relaxed">Working on several personal and learning projects to sharpen my skills</p></div></div> <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div> <h3 class="text-xl font-bold mb-3">Collaborations</h3> <p class="text-emerald-100 text-sm leading-relaxed">Collaborated with peers and contributed to small projects as I grow</p></div></div> <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 to-red-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div> <h3 class="text-xl font-bold mb-3">Growth Mindset</h3> <div class="flex items-center space-x-2"><span class="text-3xl font-bold">100%</span> <span class="text-orange-100 text-sm">Eager to Improve</span></div></div></div></div></div>`);
+  $$payload.out.push(`<div class="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl lg:mx-0"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">About Me</span></h1> <div class="mt-6 about-content">${html(data.aboutContent)}</div></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:grid-cols-3"><div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-purple-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></div> <h3 class="text-xl font-bold mb-3">Active Projects</h3> <p class="text-blue-100 text-sm leading-relaxed">Working on several personal and learning projects to sharpen my skills</p></div></div> <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div> <h3 class="text-xl font-bold mb-3">Collaborations</h3> <p class="text-emerald-100 text-sm leading-relaxed">Collaborated with peers and contributed to small projects as I grow</p></div></div> <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 to-red-600 p-8 text-white shadow-2xl hover:scale-105 transition-transform"><div class="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div> <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-white/5"></div> <div class="relative z-10"><div class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white/20"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div> <h3 class="text-xl font-bold mb-3">Growth Mindset</h3> <div class="flex items-center space-x-2"><span class="text-3xl font-bold">100%</span> <span class="text-orange-100 text-sm">Eager to Improve</span></div></div></div></div></div>`);
   pop();
 }
 var init_page_svelte2 = __esm({
@@ -18685,7 +18788,7 @@ var init__4 = __esm({
     index5 = 3;
     component4 = async () => component_cache4 ??= (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default;
     server_id = "src/routes/about/+page.server.ts";
-    imports4 = ["_app/immutable/nodes/3.tNsc3bFU.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/CnCqLEN_.js"];
+    imports4 = ["_app/immutable/nodes/3.DHvMjnp-.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/Drl81nsf.js"];
     stylesheets4 = [];
     fonts4 = [];
   }
@@ -18721,7 +18824,7 @@ function _page3($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Blog - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">Blog</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">Thoughts, tutorials, and insights on web development and technology.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"><!--[-->`);
+  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Blog</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">Thoughts, tutorials, and insights on web development and technology.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3"><!--[-->`);
   for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
     let post = each_array[$$index_1];
     const each_array_1 = ensure_array_like(post.tags);
@@ -18730,7 +18833,7 @@ function _page3($$payload, $$props) {
       let tag = each_array_1[$$index];
       $$payload.out.push(`<span class="relative z-10 rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30">${escape_html(tag)}</span>`);
     }
-    $$payload.out.push(`<!--]--></div></div> <div class="group relative max-w-xl"><h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400"><a${attr("href", `/blog/${stringify(post.slug)}`)}><span class="absolute inset-0"></span> ${escape_html(post.title)}</a></h3> <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300 line-clamp-3">${escape_html(post.excerpt)}</p></div></article>`);
+    $$payload.out.push(`<!--]--></div></div> <div class="group relative max-w-xl"><h3 class="mt-3 text-lg font-semibold leading-6 text-black group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400"><a${attr("href", `/blog/${stringify(post.slug)}`)}><span class="absolute inset-0"></span> ${escape_html(post.title)}</a></h3> <p class="mt-2 text-sm leading-6 text-black dark:text-white line-clamp-3">${escape_html(post.excerpt)}</p></div></article>`);
   }
   $$payload.out.push(`<!--]--></div></div>`);
   pop();
@@ -18759,7 +18862,7 @@ var init__5 = __esm({
     index6 = 4;
     component5 = async () => component_cache5 ??= (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default;
     server_id2 = "src/routes/blog/+page.server.ts";
-    imports5 = ["_app/immutable/nodes/4.Cl7XQe2c.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/CdlsUkWG.js", "_app/immutable/chunks/BoYayNJO.js"];
+    imports5 = ["_app/immutable/nodes/4.BGz60FxN.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/aw5bjNSR.js"];
     stylesheets5 = [];
     fonts5 = [];
   }
@@ -18833,7 +18936,7 @@ var init__6 = __esm({
     index7 = 5;
     component6 = async () => component_cache6 ??= (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default;
     server_id3 = "src/routes/blog/[slug]/+page.server.ts";
-    imports6 = ["_app/immutable/nodes/5.DoHs35H-.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/CdlsUkWG.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/BoYayNJO.js"];
+    imports6 = ["_app/immutable/nodes/5.CR_cDOm9.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/aw5bjNSR.js"];
     stylesheets6 = [];
     fonts6 = [];
   }
@@ -18869,7 +18972,7 @@ function _page5($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Contact - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">Get in Touch</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">I'd love to hear from you! Whether you have a project in mind or just want to connect.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 lg:grid-cols-2"><div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800"><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send me a message</h2> <form class="space-y-6"><div><label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label> <input type="text" name="name" id="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"/></div> <div><label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label> <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"/></div> <div><label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label> <input type="text" name="subject" id="subject" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"/></div> <div><label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label> <textarea name="message" id="message" rows="6" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2 text-base"></textarea></div> <button type="submit"${attr("disabled", isSubmitting, true)} class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">${escape_html("Send Message")}</button> `);
+  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Get in Touch</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">I'd love to hear from you! Whether you have a project in mind or just want to connect.</p></div> <div class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-8 lg:grid-cols-2"><div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800"><h2 class="text-2xl font-bold text-black dark:text-white mb-6">Send me a message</h2> <form class="space-y-6"><div><label for="name" class="block text-sm font-medium text-black dark:text-white">Name</label> <input type="text" name="name" id="name" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"/></div> <div><label for="email" class="block text-sm font-medium text-black dark:text-white">Email</label> <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"/></div> <div><label for="subject" class="block text-sm font-medium text-black dark:text-white">Subject</label> <input type="text" name="subject" id="subject" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"/></div> <div><label for="message" class="block text-sm font-medium text-black dark:text-white">Message</label> <textarea name="message" id="message" rows="6" required class="mt-1 block w-full rounded-md border-black shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-black dark:text-white px-3 py-2 text-base"></textarea></div> <button type="submit"${attr("disabled", isSubmitting, true)} class="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">${escape_html("Send Message")}</button> `);
   {
     $$payload.out.push("<!--[!-->");
   }
@@ -18877,19 +18980,19 @@ function _page5($$payload, $$props) {
   {
     $$payload.out.push("<!--[!-->");
   }
-  $$payload.out.push(`<!--]--></form></div> <div class="space-y-8"><div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800"><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h2> <div class="space-y-6"><div class="flex items-center space-x-4"><div class="flex-shrink-0">`);
+  $$payload.out.push(`<!--]--></form></div> <div class="space-y-8"><div class="rounded-lg border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800"><h2 class="text-2xl font-bold text-black dark:text-white mb-6">Contact Information</h2> <div class="space-y-6"><div class="flex items-center space-x-4"><div class="flex-shrink-0">`);
   Icons($$payload, {
     name: "email",
     size: 24,
     class: "h-6 w-6 text-blue-600 dark:text-blue-400"
   });
-  $$payload.out.push(`<!----></div> <div><p class="text-sm font-medium text-gray-900 dark:text-white">Email</p> <a${attr("href", `mailto:${stringify(data.contactInfo.email)}`)} class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">${escape_html(data.contactInfo.email)}</a></div></div> <div><p class="text-sm font-medium text-gray-900 dark:text-white mb-3">Connect with me</p> <div class="flex space-x-4"><a${attr("href", data.contactInfo.socialLinks.github)} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors" aria-label="GitHub">`);
+  $$payload.out.push(`<!----></div> <div><p class="text-sm font-medium text-black dark:text-white">Email</p> <a${attr("href", `mailto:${stringify(data.contactInfo.email)}`)} class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">${escape_html(data.contactInfo.email)}</a></div></div> <div><p class="text-sm font-medium text-black dark:text-white mb-3">Connect with me</p> <div class="flex space-x-4"><a${attr("href", data.contactInfo.socialLinks.github)} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors" aria-label="GitHub">`);
   Icons($$payload, { name: "github", size: 24, class: "h-6 w-6" });
   $$payload.out.push(`<!----></a> <a${attr("href", data.contactInfo.socialLinks.linkedin)} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" aria-label="LinkedIn">`);
   Icons($$payload, { name: "linkedin", size: 24, class: "h-6 w-6" });
   $$payload.out.push(`<!----></a> <a${attr("href", data.contactInfo.socialLinks.hackerone)} target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors" aria-label="HackerOne">`);
   Icons($$payload, { name: "hackerone", size: 24, class: "h-6 w-6" });
-  $$payload.out.push(`<!----></a></div></div> <div><p class="text-sm font-medium text-gray-900 dark:text-white">Availability</p> <p class="text-gray-600 dark:text-gray-300">${escape_html(data.contactInfo.availability)}</p></div></div></div></div></div></div>`);
+  $$payload.out.push(`<!----></a></div></div> <div><p class="text-sm font-medium text-black dark:text-white">Availability</p> <p class="text-black dark:text-white">${escape_html(data.contactInfo.availability)}</p></div></div></div></div></div></div>`);
   pop();
 }
 var init_page_svelte5 = __esm({
@@ -18917,7 +19020,7 @@ var init__7 = __esm({
     index8 = 6;
     component7 = async () => component_cache7 ??= (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default;
     server_id4 = "src/routes/contact/+page.server.ts";
-    imports7 = ["_app/immutable/nodes/6.DbBBpW_y.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/hGDXmQVd.js", "_app/immutable/chunks/BoYayNJO.js", "_app/immutable/chunks/6FRl9e4y.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js"];
+    imports7 = ["_app/immutable/nodes/6.-gDhtYT7.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/Ptpkwzz3.js", "_app/immutable/chunks/aw5bjNSR.js", "_app/immutable/chunks/CB4rgJj8.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js"];
     stylesheets7 = [];
     fonts7 = [];
   }
@@ -18954,11 +19057,11 @@ function _page6($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Projects - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">My Projects</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">A collection of projects I've built while learning and exploring new technologies.</p></div> `);
+  $$payload.out.push(`<div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8"><div class="mx-auto max-w-2xl text-center"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">My Projects</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">A collection of projects I've built while learning and exploring new technologies.</p></div> `);
   if (featuredProjects.length > 0) {
     $$payload.out.push("<!--[-->");
     const each_array = ensure_array_like(featuredProjects);
-    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-8">Featured Projects</h2> <div class="grid grid-cols-1 gap-8 lg:grid-cols-2"><!--[-->`);
+    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">Featured Projects</h2> <div class="grid grid-cols-1 gap-8 lg:grid-cols-2"><!--[-->`);
     for (let $$index_1 = 0, $$length = each_array.length; $$index_1 < $$length; $$index_1++) {
       let project = each_array[$$index_1];
       const each_array_1 = ensure_array_like(project.techStack);
@@ -18976,7 +19079,7 @@ function _page6($$payload, $$props) {
         }
         $$payload.out.push(`<!--]-->`);
       }
-      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-xl font-semibold text-gray-900 dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
+      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-xl font-semibold text-black dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-black dark:text-white">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
       for (let $$index = 0, $$length2 = each_array_1.length; $$index < $$length2; $$index++) {
         let tech = each_array_1[$$index];
         $$payload.out.push(`<span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-400/20">${escape_html(tech)}</span>`);
@@ -19009,7 +19112,7 @@ function _page6($$payload, $$props) {
   if (otherProjects.length > 0) {
     $$payload.out.push("<!--[-->");
     const each_array_2 = ensure_array_like(otherProjects);
-    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-8">Other Projects</h2> <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"><!--[-->`);
+    $$payload.out.push(`<div class="mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24"><h2 class="text-2xl font-bold tracking-tight text-black dark:text-white mb-8">Other Projects</h2> <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"><!--[-->`);
     for (let $$index_3 = 0, $$length = each_array_2.length; $$index_3 < $$length; $$index_3++) {
       let project = each_array_2[$$index_3];
       const each_array_3 = ensure_array_like(project.techStack.slice(0, 3));
@@ -19027,7 +19130,7 @@ function _page6($$payload, $$props) {
         }
         $$payload.out.push(`<!--]-->`);
       }
-      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-3">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
+      $$payload.out.push(`<!--]--> <div class="flex-1"><h3 class="text-lg font-semibold text-black dark:text-white">${escape_html(project.title)}</h3> <p class="mt-2 text-sm text-black dark:text-white line-clamp-3">${escape_html(project.description)}</p> <div class="mt-4 flex flex-wrap gap-2"><!--[-->`);
       for (let $$index_2 = 0, $$length2 = each_array_3.length; $$index_2 < $$length2; $$index_2++) {
         let tech = each_array_3[$$index_2];
         $$payload.out.push(`<span class="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-400/20">${escape_html(tech)}</span>`);
@@ -19091,7 +19194,7 @@ var init__8 = __esm({
     index9 = 7;
     component8 = async () => component_cache8 ??= (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default;
     server_id5 = "src/routes/projects/+page.server.ts";
-    imports8 = ["_app/immutable/nodes/7.DaAv8ANT.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/hGDXmQVd.js", "_app/immutable/chunks/CdlsUkWG.js", "_app/immutable/chunks/BoYayNJO.js", "_app/immutable/chunks/6FRl9e4y.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js"];
+    imports8 = ["_app/immutable/nodes/7.BExW6izv.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/Ptpkwzz3.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/aw5bjNSR.js", "_app/immutable/chunks/CB4rgJj8.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js"];
     stylesheets8 = [];
     fonts8 = [];
   }
@@ -19129,22 +19232,22 @@ function _page7($$payload, $$props) {
   head($$payload, ($$payload2) => {
     $$payload2.title = `<title>Resume - Majed Abu Sitta</title>`;
   });
-  $$payload.out.push(`<div class="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8"><div class="text-center mb-16"><h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">Resume</h1> <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">My professional background and experience in web development.</p> <div class="mt-8 flex justify-center gap-4"><a${attr("href", data.resumeData.pdfUrl)} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors">`);
+  $$payload.out.push(`<div class="mx-auto max-w-4xl px-6 py-24 sm:py-32 lg:px-8"><div class="text-center mb-16"><h1 class="text-4xl font-bold tracking-tight sm:text-6xl"><span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Resume</span></h1> <p class="mt-6 text-lg leading-8 text-black dark:text-white">My professional background and experience in web development.</p> <div class="mt-8 flex justify-center gap-4"><a${attr("href", data.resumeData.pdfUrl)} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors">`);
   Icons($$payload, { name: "download", size: 16 });
-  $$payload.out.push(`<!----> Download PDF</a></div> <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Last updated: ${escape_html(new Date(data.resumeData.lastUpdated).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }))}</p></div> <div class="space-y-12"><section><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Professional Summary</h2> <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><p class="text-gray-600 dark:text-gray-300 leading-relaxed">${escape_html(data.resumeData.sections.summary)}</p></div></section> <section><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Experience</h2> <div class="space-y-6"><!--[-->`);
+  $$payload.out.push(`<!----> Download PDF</a></div> <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Last updated: ${escape_html(new Date(data.resumeData.lastUpdated).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }))}</p></div> <div class="space-y-12"><section><h2 class="text-2xl font-bold text-black dark:text-white mb-4">Professional Summary</h2> <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><p class="text-black dark:text-white leading-relaxed">${escape_html(data.resumeData.sections.summary)}</p></div></section> <section><h2 class="text-2xl font-bold text-black dark:text-white mb-6">Experience</h2> <div class="space-y-6"><!--[-->`);
   for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
     let job = each_array[$$index];
-    $$payload.out.push(`<div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2"><div><h3 class="text-lg font-semibold text-gray-900 dark:text-white">${escape_html(job.position)}</h3> <p class="text-blue-600 dark:text-blue-400 font-medium">${escape_html(job.company)}</p></div> <span class="text-sm text-gray-500 dark:text-gray-400 mt-1 sm:mt-0">${escape_html(job.duration)}</span></div> <p class="text-gray-600 dark:text-gray-300 leading-relaxed">${escape_html(job.description)}</p></div>`);
+    $$payload.out.push(`<div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2"><div><h3 class="text-lg font-semibold text-black dark:text-white">${escape_html(job.position)}</h3> <p class="text-blue-600 dark:text-blue-400 font-medium">${escape_html(job.company)}</p></div> <span class="text-sm text-gray-500 dark:text-gray-400 mt-1 sm:mt-0">${escape_html(job.duration)}</span></div> <p class="text-black dark:text-white leading-relaxed">${escape_html(job.description)}</p></div>`);
   }
-  $$payload.out.push(`<!--]--></div></section> <section><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Technical Skills</h2> <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-wrap gap-3"><!--[-->`);
+  $$payload.out.push(`<!--]--></div></section> <section><h2 class="text-2xl font-bold text-black dark:text-white mb-6">Technical Skills</h2> <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-wrap gap-3"><!--[-->`);
   for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
     let skill = each_array_1[$$index_1];
     $$payload.out.push(`<span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-400/20">${escape_html(skill)}</span>`);
   }
-  $$payload.out.push(`<!--]--></div></div></section> <section><h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Education</h2> <div class="space-y-4"><!--[-->`);
+  $$payload.out.push(`<!--]--></div></div></section> <section><h2 class="text-2xl font-bold text-black dark:text-white mb-6">Education</h2> <div class="space-y-4"><!--[-->`);
   for (let $$index_2 = 0, $$length = each_array_2.length; $$index_2 < $$length; $$index_2++) {
     let edu = each_array_2[$$index_2];
-    $$payload.out.push(`<div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-col sm:flex-row sm:justify-between sm:items-start"><div><h3 class="text-lg font-semibold text-gray-900 dark:text-white">${escape_html(edu.degree)}</h3> <p class="text-blue-600 dark:text-blue-400 font-medium">${escape_html(edu.institution)}</p></div> <span class="text-sm text-gray-500 dark:text-gray-400 mt-1 sm:mt-0">${escape_html(edu.year)}</span></div></div>`);
+    $$payload.out.push(`<div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800"><div class="flex flex-col sm:flex-row sm:justify-between sm:items-start"><div><h3 class="text-lg font-semibold text-black dark:text-white">${escape_html(edu.degree)}</h3> <p class="text-blue-600 dark:text-blue-400 font-medium">${escape_html(edu.institution)}</p></div> <span class="text-sm text-gray-500 dark:text-gray-400 mt-1 sm:mt-0">${escape_html(edu.year)}</span></div></div>`);
   }
   $$payload.out.push(`<!--]--></div></section></div></div>`);
   pop();
@@ -19174,7 +19277,7 @@ var init__9 = __esm({
     index10 = 8;
     component9 = async () => component_cache9 ??= (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default;
     server_id6 = "src/routes/resume/+page.server.ts";
-    imports9 = ["_app/immutable/nodes/8.B8PLReT8.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/CdlsUkWG.js", "_app/immutable/chunks/BoYayNJO.js", "_app/immutable/chunks/6FRl9e4y.js", "_app/immutable/chunks/CnCqLEN_.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js"];
+    imports9 = ["_app/immutable/nodes/8.BzeCS0M3.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/OyS_cNS9.js", "_app/immutable/chunks/aw5bjNSR.js", "_app/immutable/chunks/CB4rgJj8.js", "_app/immutable/chunks/Drl81nsf.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js"];
     stylesheets9 = [];
     fonts9 = [];
   }
@@ -19731,7 +19834,7 @@ var options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "1gtmy7r"
+  version_hash: "7vvwx"
 };
 async function get_hooks() {
   let handle3;
@@ -20290,6 +20393,7 @@ function stringify_primitive2(thing) {
 
 // .svelte-kit/output/server/index.js
 init_exports2();
+init_index2();
 var import_cookie = __toESM(require_cookie(), 1);
 var set_cookie_parser = __toESM(require_set_cookie(), 1);
 var SVELTE_KIT_ASSETS = "/_svelte_kit_assets";
@@ -23585,7 +23689,7 @@ var manifest = (() => {
     assets: /* @__PURE__ */ new Set(["file.svg", "globe.svg", "images/Score_buddies.png", "images/Score_buddies_versions.png", "images/balagh.png", "images/majedabusitta-svelte.png", "images/study-buddy.png", "next.svg", "vercel.svg", "window.svg"]),
     mimeTypes: { ".svg": "image/svg+xml", ".png": "image/png" },
     _: {
-      client: { start: "_app/immutable/entry/start.BuuIubX1.js", app: "_app/immutable/entry/app.DyE9WprR.js", imports: ["_app/immutable/entry/start.BuuIubX1.js", "_app/immutable/chunks/mDb9_bB4.js", "_app/immutable/chunks/Cq5Sg4Pf.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/CUAHUuVc.js", "_app/immutable/entry/app.DyE9WprR.js", "_app/immutable/chunks/BmIPGj5X.js", "_app/immutable/chunks/TMDQaXup.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Cq5Sg4Pf.js", "_app/immutable/chunks/hGDXmQVd.js", "_app/immutable/chunks/B3WSMgp5.js", "_app/immutable/chunks/CUAHUuVc.js"], stylesheets: [], fonts: [], uses_env_dynamic_public: false },
+      client: { start: "_app/immutable/entry/start.rZTq_WdC.js", app: "_app/immutable/entry/app.Ag66EGPV.js", imports: ["_app/immutable/entry/start.rZTq_WdC.js", "_app/immutable/chunks/3fYz-GZE.js", "_app/immutable/chunks/Bl4h6Qc0.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/BVhK3JSu.js", "_app/immutable/entry/app.Ag66EGPV.js", "_app/immutable/chunks/Bdp2k7T9.js", "_app/immutable/chunks/DYYhDx6U.js", "_app/immutable/chunks/NZTpNUN0.js", "_app/immutable/chunks/Bl4h6Qc0.js", "_app/immutable/chunks/Ptpkwzz3.js", "_app/immutable/chunks/BCAJF5o5.js", "_app/immutable/chunks/BVhK3JSu.js"], stylesheets: [], fonts: [], uses_env_dynamic_public: false },
       nodes: [
         __memo(() => Promise.resolve().then(() => (init__(), __exports))),
         __memo(() => Promise.resolve().then(() => (init__2(), __exports2))),

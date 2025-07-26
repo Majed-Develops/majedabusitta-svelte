@@ -1,4 +1,4 @@
-import { G as attr, J as attr_class, S as clsx } from "./index.js";
+import { G as attr, J as attr_class, T as clsx } from "./index.js";
 import { h as html } from "./html.js";
 function Icons($$payload, $$props) {
   let { name, class: className = "", size = 24 } = $$props;
